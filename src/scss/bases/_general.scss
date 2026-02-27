@@ -1,0 +1,43 @@
+@use './../mixins' as *;
+
+.general {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: var(--section-padding-top) 0 var(--section-padding-bottom);
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem 2rem;
+  }
+
+  &__body {
+    max-width: 50%;
+
+    @include md {
+      max-width: 100%;
+    }
+  }
+
+  &__wrap {}
+
+  &__title {}
+
+  &__text {}
+
+  &__btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    width: fit-content;
+
+    @include md {
+      display: none;
+    }
+  }
+
+  &__control {}
+}

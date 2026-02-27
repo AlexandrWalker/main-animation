@@ -1,0 +1,168 @@
+@font-face {
+  font-family: 'MotoristIconFont';
+  src:  url('fonts/MotoristIconFont.eot?a1pzaw');
+  src:  url('fonts/MotoristIconFont.eot?a1pzaw#iefix') format('embedded-opentype'),
+    url('fonts/MotoristIconFont.ttf?a1pzaw') format('truetype'),
+    url('fonts/MotoristIconFont.woff?a1pzaw') format('woff'),
+    url('fonts/MotoristIconFont.svg?a1pzaw#MotoristIconFont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'MotoristIconFont' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow:before {
+  content: "\e900";
+}
+.icon-basket:before {
+  content: "\e901";
+}
+.icon-bento:before {
+  content: "\e902";
+}
+.icon-bento-menu:before {
+  content: "\e903";
+}
+.icon-cart:before {
+  content: "\e904";
+}
+.icon-cart-min:before {
+  content: "\e905";
+}
+.icon-check:before {
+  content: "\e906";
+}
+.icon-chevron:before {
+  content: "\e907";
+}
+.icon-chevron-min:before {
+  content: "\e908";
+}
+.icon-compare:before {
+  content: "\e909";
+}
+.icon-doc:before {
+  content: "\e90a";
+}
+.icon-download:before {
+  content: "\e90b";
+}
+.icon-favorite:before {
+  content: "\e90c";
+}
+.icon-favorite-fill-min:before {
+  content: "\e90d";
+}
+.icon-favorite-min:before {
+  content: "\e90e";
+}
+.icon-filter:before {
+  content: "\e90f";
+}
+.icon-form-mail:before {
+  content: "\e910";
+}
+.icon-form-phone:before {
+  content: "\e911";
+}
+.icon-form-photo-camera:before {
+  content: "\e912";
+}
+.icon-form-tie:before {
+  content: "\e913";
+}
+.icon-form-user:before {
+  content: "\e914";
+}
+.icon-headphone:before {
+  content: "\e915";
+}
+.icon-kebab-menu:before {
+  content: "\e916";
+}
+.icon-mastercard:before {
+  content: "\e917";
+}
+.icon-max:before {
+  content: "\e918";
+}
+.icon-minus:before {
+  content: "\e919";
+}
+.icon-mir:before {
+  content: "\e91a";
+}
+.icon-plane:before {
+  content: "\e91b";
+}
+.icon-plate-headphone:before {
+  content: "\e91c";
+}
+.icon-plate-mail:before {
+  content: "\e91d";
+}
+.icon-plate-max:before {
+  content: "\e91e";
+}
+.icon-plate-phone:before {
+  content: "\e91f";
+}
+.icon-plate-telegram:before {
+  content: "\e920";
+}
+.icon-plate-whatsapp:before {
+  content: "\e921";
+}
+.icon-plus:before {
+  content: "\e922";
+}
+.icon-plus-min:before {
+  content: "\e923";
+}
+.icon-sberbank:before {
+  content: "\e924";
+}
+.icon-search:before {
+  content: "\e925";
+}
+.icon-slider-arrow:before {
+  content: "\e926";
+}
+.icon-star:before {
+  content: "\e927";
+}
+.icon-telegram:before {
+  content: "\e928";
+}
+.icon-thermometer:before {
+  content: "\e929";
+}
+.icon-trash:before {
+  content: "\e92a";
+}
+.icon-visa:before {
+  content: "\e92b";
+}
+.icon-vote:before {
+  content: "\e92c";
+}
+.icon-whatsapp:before {
+  content: "\e92d";
+}
+.icon-youkassa:before {
+  content: "\e92e";
+}

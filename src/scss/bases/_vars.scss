@@ -1,0 +1,35 @@
+@use './../mixins' as *;
+
+:root {
+  --font-family: "Montserrat", Arial, sans-serif;
+
+  --container-padding: 10rem;
+  --container-width: 172rem;
+  --header-height: 10rem;
+  --section-padding-top: 2.5rem;
+  --section-padding-bottom: 2.5rem;
+
+  --bg: #F5F5F5;
+  --white: #ffffff;
+  --black: #000000;
+  --gray: #718595;
+  --white-gray: #D9D9D9;
+
+  --second-black: #1E2327;
+  --blue: #35AFDA;
+  --green: #52BB79;
+  --red: #EE5956;
+  --orange: #FF6421;
+  --yellow: #EDA74C;
+
+  @include md {
+    --container-padding: 2rem;
+    --header-height: 8rem;
+    --section-padding-top: 1.5rem;
+    --section-padding-bottom: 1.5rem;
+  }
+
+  @include sm {
+    --container-padding: 1rem;
+  }
+}

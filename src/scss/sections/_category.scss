@@ -1,0 +1,158 @@
+@use './../mixins' as *;
+
+.category {
+
+  &__slider {
+    position: relative;
+
+    // &-highlight {
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   height: 100%;
+    //   background: var(--blue);
+    //   border-radius: 1.5rem;
+    //   z-index: 0;
+    //   pointer-events: none;
+
+    //   /* Плавный переезд фона к активному слайду */
+    //   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    //     width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    //   /* Начальное состояние — скрыт пока JS не посчитает позицию */
+    //   opacity: 0;
+    //   transition: opacity 0.15s ease,
+    //     transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    //     width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    //   &.is-visible {
+    //     opacity: 1;
+    //   }
+    // }
+
+    &-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #2563eb;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      width: 0;
+      will-change: transform, width;
+
+      &--from {
+        z-index: 1;
+      }
+
+      &--to {
+        z-index: 2;
+      }
+
+      &.is-visible {
+        opacity: 1;
+      }
+    }
+
+    .swiper-slide {
+      z-index: 3;
+
+      // &.is-virtual-active .category__item,
+      // &-active .category__item {
+      //   color: var(--white);
+      // }
+    }
+  }
+
+  &__item {
+    display: block;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    height: 100%;
+    // background-color: var(--white);
+    box-shadow: 5px 12px 23px rgba(113, 133, 149, 0.1);
+
+    position: relative;
+
+    // &::before {
+    //   content: "";
+    //   display: block;
+    //   width: 100%;
+    //   height: 100%;
+    //   background-color: var(--blue);
+    //   transform: scaleX(0);
+    //   transform-origin: left;
+    //   transition: all 0.5s ease-in-out;
+
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   z-index: 1;
+    // }
+
+    &:hover {
+
+      @include domd {
+        color: var(--white);
+        background-color: var(--blue);
+
+        i {
+          color: var(--blue);
+          background-color: var(--white);
+          transform: translateX(1rem);
+        }
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 3.2rem;
+      padding: 2rem 5.5rem 2rem 2rem;
+      height: 100%;
+
+      position: relative;
+      z-index: 2;
+
+      @include md {
+        padding: 2rem 5.5rem 2rem 2rem;
+      }
+    }
+
+    &-img {
+      width: fit-content;
+      height: 7rem;
+
+      img {
+        width: auto;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &-name {
+      font-family: var(--font-family);
+      font-weight: 700;
+      font-size: 1.4rem;
+      line-height: 120%;
+
+      @include md {
+        font-size: 1.4rem;
+      }
+    }
+
+    i {
+      --font-size: 2.2rem;
+
+      border-radius: 50%;
+      background-color: var(--blue);
+      color: var(--white);
+
+      position: absolute;
+      right: 2rem;
+      bottom: 2rem;
+    }
+  }
+}
