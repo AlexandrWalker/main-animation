@@ -919,6 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
   })();
+
   (function () {
     // ================= Кэш элементов =================
     const folding = document.querySelector('.folding');
@@ -1131,6 +1132,127 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(scrollLoop);
   })();
+
+  const templateProducts = document.querySelectorAll('.template-product');
+
+  if (templateProducts.length != 0) {
+    templateProducts.forEach(templateProduct => {
+
+      const templateProductSliders = templateProduct.querySelectorAll('.template-product__content');
+
+      if (templateProductSliders.length > 1) {
+        templateProductSliders.forEach(templateProductSlider => {
+          const templateProductSliderMini = templateProductSlider.querySelector('.template-product__slider--mini');
+          const templateProductSliderBig = templateProductSlider.querySelector('.template-product__slider--big');
+          const templateProductSliderPrev = templateProductSlider.querySelector('.template-product-button-prev');
+          const templateProductSliderNext = templateProductSlider.querySelector('.template-product-button-next');
+          templateSlider(templateProductSliderMini, templateProductSliderBig, templateProductSliderPrev, templateProductSliderNext);
+        });
+      } else {
+        const templateProductSliderMini = templateProduct.querySelector('.template-product__slider--mini');
+        const templateProductSliderBig = templateProduct.querySelector('.template-product__slider--big');
+        const templateProductSliderPrev = templateProduct.querySelector('.template-product-button-prev');
+        const templateProductSliderNext = templateProduct.querySelector('.template-product-button-next');
+        templateSlider(templateProductSliderMini, templateProductSliderBig, templateProductSliderPrev, templateProductSliderNext);
+      }
+
+      function templateSlider(slider1, slider2, prev, next) {
+        const templateSliderMini = new Swiper(slider1, {
+          slidesPerView: 3,
+          spaceBetween: 10,
+          speed: 800,
+
+          grabCursor: false,
+          mousewheel: false,
+          watchSlidesProgress: true,
+          touchEvents: {
+            prevent: true
+          },
+          breakpoints: {
+            769: {
+              spaceBetween: 20,
+            },
+          },
+        });
+
+        const templateSliderBig = new Swiper(slider2, {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          speed: 800,
+
+          grabCursor: true,
+          mousewheel: {
+            forceToAxis: true,
+          },
+          thumbs: {
+            swiper: templateSliderMini,
+          },
+          navigation: {
+            prevEl: prev,
+            nextEl: next,
+          },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          touchEvents: {
+            prevent: true
+          },
+        });
+      }
+
+    });
+  }
+
+  const productSliderMin = new Swiper('.product__slider-min', {
+    slidesPerGroup: 1,
+    slidesPerView: 4,
+    spaceBetween: 10,
+    loop: false,
+    speed: 500,
+    simulateTouch: true,
+    watchOverflow: true,
+    watchSlidesProgress: true,
+
+    direction: 'horizontal',
+    touchStartPreventDefault: true,
+    touchMoveStopPropagation: true,
+    threshold: 8,
+    touchAngle: 25,
+
+    mousewheel: {
+      forceToAxis: true,
+      sensitivity: 1,
+      releaseOnEdges: true
+    },
+  });
+  const productSliderBig = new Swiper('.product__slider-big', {
+    slidesPerGroup: 1,
+    slidesPerView: 1,
+    spaceBetween: 0,
+    loop: false,
+    speed: 500,
+    simulateTouch: true,
+    watchOverflow: true,
+    watchSlidesProgress: true,
+    grabCursor: true,
+
+    direction: 'horizontal',
+    touchStartPreventDefault: true,
+    touchMoveStopPropagation: true,
+    threshold: 8,
+    touchAngle: 25,
+
+    mousewheel: {
+      forceToAxis: true,
+      sensitivity: 1,
+      releaseOnEdges: true
+    },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    thumbs: {
+      swiper: productSliderMin,
+    },
+  });
 
 });
 

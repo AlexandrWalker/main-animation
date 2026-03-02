@@ -104,6 +104,10 @@
   &::after {
     display: none;
   }
+
+  .swiper-navigation-icon {
+    display: none;
+  }
 }
 
 // [data-direction="next"] {
@@ -147,7 +151,7 @@
 }
 
 /* Виртуальный активный слайд — получает те же стили что swiper-slide-active */
-.is-virtual-active .category__item,
+.is-virtual-active.is-before-edge .category__item,
 .swiper-slide-active .category__item,
 .is-virtual-active .category__item {
   color: var(--white);
