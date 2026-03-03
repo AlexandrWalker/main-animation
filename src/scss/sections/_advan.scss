@@ -1,0 +1,76 @@
+@use './../mixins' as *;
+
+.advan {
+  --photo-size: 6rem;
+  --head-gap: 2rem;
+
+  &__body {
+    position: relative;
+  }
+
+  &__wrapper {
+    overflow: hidden;
+    width: calc(100% + 2rem);
+    padding: 0 1rem;
+    margin-left: -1rem;
+    // border-radius: 2rem;
+
+    &::before {
+      content: "";
+      width: 1rem;
+      height: 100%;
+      background: linear-gradient(to left, transparent 0rem, var(--bg) 1rem);
+
+      pointer-events: none;
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -1rem;
+      z-index: 10;
+    }
+
+    &::after {
+      content: "";
+      width: 1rem;
+      height: 100%;
+      background: linear-gradient(to right, transparent 0rem, var(--bg) 1rem);
+
+      pointer-events: none;
+
+      position: absolute;
+      top: 0;
+      right: -1rem;
+      bottom: 0;
+      z-index: 10;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 2rem 3rem;
+    border-radius: 2rem;
+    background-color: var(--white);
+
+    &-head {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--head-gap);
+    }
+
+    &-title {
+      width: min-content;
+
+      font-weight: 700;
+      font-size: 2rem;
+      line-height: 120%;
+    }
+
+    &-body {}
+
+    &-text {}
+  }
+}

@@ -34,8 +34,17 @@
     gap: 2rem;
     width: fit-content;
 
-    @include md {
-      display: none;
+    /* Кнопка слайдера */
+    [class^="swiper-button-"],
+    [class*=" swiper-button-"] {
+      transform: unset;
+
+      position: static;
+    }
+
+    .general__foot & {
+      width: 100%;
+      justify-content: space-between;
     }
   }
 

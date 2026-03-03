@@ -230,6 +230,126 @@ document.addEventListener('DOMContentLoaded', () => {
           navigation: false,
         },
       },
+      {
+        sliderSelector: '.reviews__slider',
+        prevSelector: '.reviews-button-prev',
+        nextSelector: '.reviews-button-next',
+        swiperOptions: {
+          slidesPerGroup: 1,
+          slidesPerView: 1.2,
+          spaceBetween: 10,
+          speed: 500,
+          grabCursor: true,
+          loop: false,
+          touchRatio: 1.6,
+          resistance: true,
+          resistanceRatio: 0.4,
+          centeredSlides: false,
+          centeredSlidesBounds: true,
+          simulateTouch: true,
+          direction: 'horizontal',
+          touchStartPreventDefault: true,
+          touchMoveStopPropagation: true,
+          threshold: 8,
+          touchAngle: 25,
+          freeMode: {
+            enabled: true,
+            momentum: true,
+            momentumRatio: 0.85,
+            momentumVelocityRatio: 1,
+            momentumBounce: false,
+            sticky: true,
+          },
+          mousewheel: {
+            forceToAxis: true,
+            sensitivity: 1,
+            releaseOnEdges: true,
+          },
+          breakpoints: {
+            0: {
+              slidesPerGroup: 1,
+              slidesPerView: 1.2,
+              spaceBetween: 10,
+              sticky: true,
+            },
+            601: {
+              slidesPerGroup: 1,
+              slidesPerView: 2,
+              spaceBetween: 10,
+              sticky: true,
+            },
+            835: {
+              slidesPerGroup: 1,
+              slidesPerView: 3,
+              spaceBetween: 20,
+              sticky: false,
+            },
+          },
+          navigation: false,
+        },
+      },
+      {
+        sliderSelector: '.advan__slider',
+        prevSelector: '.advan-button-prev',
+        nextSelector: '.advan-button-next',
+        swiperOptions: {
+          slidesPerGroup: 1,
+          slidesPerView: 1,
+          spaceBetween: 10,
+          speed: 500,
+          grabCursor: true,
+          loop: false,
+          touchRatio: 1.6,
+          resistance: true,
+          resistanceRatio: 0.4,
+          centeredSlides: false,
+          centeredSlidesBounds: true,
+          simulateTouch: true,
+          direction: 'horizontal',
+          touchStartPreventDefault: true,
+          touchMoveStopPropagation: true,
+          threshold: 8,
+          touchAngle: 25,
+
+          // watchSlidesProgress: true,
+          // slideVisibleClass: 'slide-visible',
+
+          freeMode: {
+            enabled: true,
+            momentum: true,
+            momentumRatio: 0.85,
+            momentumVelocityRatio: 1,
+            momentumBounce: false,
+            sticky: true,
+          },
+          mousewheel: {
+            forceToAxis: true,
+            sensitivity: 1,
+            releaseOnEdges: true,
+          },
+          breakpoints: {
+            0: {
+              slidesPerGroup: 1,
+              slidesPerView: 1,
+              spaceBetween: 10,
+              sticky: true,
+            },
+            601: {
+              slidesPerGroup: 1,
+              slidesPerView: 2,
+              spaceBetween: 10,
+              sticky: true,
+            },
+            835: {
+              slidesPerGroup: 1,
+              slidesPerView: 3,
+              spaceBetween: 20,
+              sticky: false,
+            },
+          },
+          navigation: false,
+        },
+      },
     ];
 
 
@@ -1226,6 +1346,7 @@ document.addEventListener('DOMContentLoaded', () => {
       releaseOnEdges: true
     },
   });
+
   const productSliderBig = new Swiper('.product__slider-big', {
     slidesPerGroup: 1,
     slidesPerView: 1,
@@ -1252,6 +1373,30 @@ document.addEventListener('DOMContentLoaded', () => {
     thumbs: {
       swiper: productSliderMin,
     },
+  });
+
+  /**
+ * Инициализация TransferElements
+ */
+  const transferGeneralElems = document.querySelectorAll('.general');
+  transferGeneralElems.forEach(transferGeneralElem => {
+    const transferElem = transferGeneralElem.querySelector('.general__btns');
+    const transferPos = transferGeneralElem.querySelector('.general__foot');
+
+    // $(window).on('resize load', function () {
+      if (window.innerWidth <= 600 && transferElem && transferPos) {
+        new TransferElements(
+          {
+            sourceElement: transferGeneralElem.querySelector('.general__btns'),
+            breakpoints: {
+              600: {
+                targetElement: transferGeneralElem.querySelector('.general__foot')
+              }
+            },
+          }
+        );
+      }
+    // });
   });
 
 });

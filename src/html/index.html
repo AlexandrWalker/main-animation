@@ -43,16 +43,85 @@
                   </p>
                 </div>
               </div>
+
+
+              <div class="swiper category__slider">
+                <!-- <div class="category__slider-highlight category__slider-highlight--from"></div> -->
+                <!-- <div class="category__slider-highlight category__slider-highlight--to"></div> -->
+                <div class="swiper-wrapper">
+                  @@loop('./elements/category-slide-item.html', './data/category-items.json')
+                </div>
+              </div>
+
+              <div class="general__foot"></div>
+              
             </div>
 
-            <div class="swiper category__slider">
-              <!-- <div class="category__slider-highlight category__slider-highlight--from"></div> -->
-              <!-- <div class="category__slider-highlight category__slider-highlight--to"></div> -->
-              <div class="swiper-wrapper">
-                @@loop('./elements/category-slide-item.html', './data/category-items.json')
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title">
+                  <h2>Отзывы</h2>
+                </div>
+                <div class="general__btns">
+                  <a class="btn" href="/">
+                    Подробнее
+                  </a>
+                  <div class="swiper-buttons">
+                    <div class="swiper-button-prev reviews-button-prev">
+                      <i class="icon-slider-arrow"></i>
+                    </div>
+                    <div class="swiper-button-next reviews-button-next">
+                      <i class="icon-slider-arrow"></i>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <div class="reviews__body">
 
+              <div class="swiper reviews__slider">
+                <div class="swiper-wrapper">
+                  @@loop('./elements/reviews-slide-item.html', './data/reviews-items.json')
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="advan">
+        <div class="container">
+          <div class="advan__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title">
+                  <h2>Преимущества</h2>
+                </div>
+              </div>
+            </div>
+            <div class="advan__body">
+              <div class="advan__wrapper">
+                <div class="swiper advan__slider">
+                  <div class="swiper-wrapper">
+                    @@loop('./elements/advan-slide-item.html', './data/advan-items.json')
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-button-prev advan-button-prev">
+                <i class="icon-slider-arrow"></i>
+              </div>
+              <div class="swiper-button-next advan-button-next">
+                <i class="icon-slider-arrow"></i>
+              </div>
+            </div>
           </div>
         </div>
       </section>

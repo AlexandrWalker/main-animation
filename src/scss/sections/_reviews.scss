@@ -1,0 +1,69 @@
+@use './../mixins' as *;
+
+.reviews {
+  --photo-size: 6rem;
+  --head-gap: 2rem;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 2rem 3rem;
+    border-radius: 2rem;
+    background-color: var(--white);
+
+    &-head {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--head-gap);
+    }
+
+    &-photo {
+      width: var(--photo-size);
+      height: var(--photo-size);
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    &-name {
+      font-weight: 700;
+      font-size: 2rem;
+      line-height: 120%;
+
+      @include md {
+        font-size: 1.6rem;
+      }
+    }
+
+    &-date {
+      font-weight: 400;
+      font-size: 1.4rem;
+      line-height: 120%;
+    }
+
+    &-body {
+      padding-left: calc(var(--head-gap) + var(--photo-size));
+
+      @include md {
+        padding-left: 0;
+      }
+    }
+
+    &-text {
+
+    }
+  }
+}

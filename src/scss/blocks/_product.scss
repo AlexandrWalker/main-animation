@@ -31,8 +31,8 @@
     grid-row: 1/3;
 
     &-top {
-      background-color: var(--white-50);
-      border: 0.1rem solid var(--white);
+      background-color: var(--white);
+      border: 0.1rem solid var(--gray-50);
       border-radius: 1.5rem;
 
       position: relative;
@@ -52,13 +52,14 @@
     gap: 2rem;
     padding: 3rem 3rem 3rem 4rem;
     border-radius: 1.5rem;
-    border: 0.1rem solid var(--white);
-    background-color: var(--white-50);
+    border: 0.1rem solid var(--gray-50);
+    background-color: var(--white);
 
     grid-column: 2/3;
     grid-row: 1/2;
 
     @include md {
+      grid-template-columns: 1fr 2fr;
       padding: 2rem 1.5rem 1.5rem 1.5rem;
     }
 
@@ -156,8 +157,8 @@
     gap: 2rem;
     padding: 3rem 11rem 4rem 4rem;
     border-radius: 1.5rem;
-    border: 0.1rem solid var(--white);
-    background-color: var(--white-50);
+    background-color: var(--white);
+    border: 0.1rem solid var(--gray-50);
 
     grid-column: 2/3;
     grid-row: 2/3;

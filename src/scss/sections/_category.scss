@@ -75,6 +75,10 @@
 
     position: relative;
 
+    @include md {
+      box-shadow: 0 0 5px 5px rgba(113, 133, 149, 0.1);
+    }
+
     // &::before {
     //   content: "";
     //   display: block;
