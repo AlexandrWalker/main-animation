@@ -4,6 +4,12 @@
   --photo-size: 6rem;
   --head-gap: 2rem;
 
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
   &__item {
     display: flex;
     flex-direction: column;

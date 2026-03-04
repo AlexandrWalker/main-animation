@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" class="page__inner">
+@@include('blocks/head.html', {"title": "Motorist"})
+
+<body>
+  <div class="wrapper">
+    <!-- Шапка -->
+    @@include('./blocks/header.html')
+    <main class="main">
+
+      <section class="template">
+        <div class="container">
+          <div class="template__inner">
+
+            <div class="general__head">
+              <div class="general__title">
+                <h1>
+                  Отзывы
+                </h1>
+              </div>
+              <a class="general__link" href="/main-animation">
+                <h6>
+                  Назад
+                </h6>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="reviews__items">
+              @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- Подвал -->
+    @@include('blocks/footer.html')

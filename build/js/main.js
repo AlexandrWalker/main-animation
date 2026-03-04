@@ -1376,27 +1376,202 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /**
- * Инициализация TransferElements
- */
+  * Инициализация TransferElements
+  */
   const transferGeneralElems = document.querySelectorAll('.general');
   transferGeneralElems.forEach(transferGeneralElem => {
     const transferElem = transferGeneralElem.querySelector('.general__btns');
     const transferPos = transferGeneralElem.querySelector('.general__foot');
 
     // $(window).on('resize load', function () {
-      if (window.innerWidth <= 600 && transferElem && transferPos) {
-        new TransferElements(
-          {
-            sourceElement: transferGeneralElem.querySelector('.general__btns'),
-            breakpoints: {
-              600: {
-                targetElement: transferGeneralElem.querySelector('.general__foot')
-              }
-            },
-          }
-        );
-      }
+    if (window.innerWidth <= 600 && transferElem && transferPos) {
+      new TransferElements(
+        {
+          sourceElement: transferGeneralElem.querySelector('.general__btns'),
+          breakpoints: {
+            600: {
+              targetElement: transferGeneralElem.querySelector('.general__foot')
+            }
+          },
+        }
+      );
+    }
     // });
+  });
+
+  /**
+   * Анимация текста
+   */
+  gsap.utils.toArray('[data-split="title"]').forEach(dataSplitLines => {
+    const textSplits = dataSplitLines.querySelectorAll('*');
+    textSplits.forEach(textSplit => {
+      if (textSplit) SplitText.create(textSplit, {
+        type: "words,lines",
+        mask: "lines",
+        linesClass: "line",
+        autoSplit: true,
+        onSplit: inst => gsap.from(inst.lines, {
+          y: 50,
+          rotation: 2.5,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: dataSplitLines,
+            start: "top 90%",
+            end: "bottom top"
+          }
+        })
+      });
+    });
+  });
+
+  gsap.utils.toArray('[data-split="text"]').forEach(dataSplitLines => {
+    const textSplits = dataSplitLines.querySelectorAll('*');
+    textSplits.forEach(textSplit => {
+      if (textSplit) SplitText.create(textSplit, {
+        type: "words,lines",
+        mask: "lines",
+        linesClass: "line",
+        autoSplit: true,
+        onSplit: inst => gsap.from(inst.lines, {
+          y: 30,
+          rotation: 2.5,
+          opacity: 0,
+          stagger: 0.05,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: dataSplitLines,
+            start: "top 90%",
+            end: "bottom top"
+          }
+        })
+      });
+    });
+  });
+
+  /**
+   * Анимация блока
+   */
+  // Анимация border-radius при скролле
+  const animatedContainers = document.querySelectorAll('.animated-container');
+  animatedContainers.forEach(animatedContainer => {
+    const animatedBox = animatedContainer.querySelector('.animated-box');
+    gsap.to(animatedBox, {
+      borderRadius: '0%', // Конечное значение border-radius
+      duration: 1, // Длительность анимации (в секундах)
+      ease: 'power2.inOut', // Плавность анимации
+
+      // Настройки ScrollTrigger
+      scrollTrigger: {
+        trigger: animatedContainer, // Элемент-триггер
+        start: 'top center', // Начало анимации: верх секции достигает центра экрана
+        end: 'bottom center', // Конец анимации: низ секции достигает центра экрана
+        scrub: true, // Анимация следует за скроллом
+        toggleClass: { targets: animatedBox, className: 'active' } // Опционально: добавление класса
+      }
+    });
+  });
+
+  gsap.utils.toArray('[data-anim="gallery"]').forEach(dataAnimItem => {
+    gsap.from(dataAnimItem, {
+      duration: 0.8,
+      opacity: 0,
+      scale: 0.8,
+      y: 40,
+      stagger: {
+        each: 0.15,
+        from: 'start'
+      },
+      ease: 'power.out',
+      scrub: 0.7,
+      pin: true,
+      pinSpacing: true,
+      scrollTrigger: {
+        trigger: dataAnimItem,
+        start: 'top 90%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+
+  // const sections = gsap.utils.toArray('section');
+
+  // sections.forEach((section, index) => {
+  //   gsap.to(section, {
+  //     y: -section.offsetHeight, // Смещение вверх на высоту самой секции
+  //     duration: 1,
+  //     ease: 'none',
+  //     scrollTrigger: {
+  //       trigger: section,
+  //       start: 'top top', // Начало: верх секции совпадает с верхом экрана
+  //       end: `+=${section.offsetHeight}`, // Конец: через высоту секции после начала
+  //       scrub: true, // Плавное следование за скроллом
+  //       pin: true, // Закрепление секции во время анимации
+  //       pinSpacing: false, // Отключаем автоматические отступы
+  //       markers: false // Отключить маркеры отладки (для продакшена)
+  //     }
+  //   });
+  // });
+
+  // const sections = gsap.utils.toArray('section');
+
+  // sections.forEach((section, index) => {
+  //   // Получаем высоту текущей секции
+  //   const sectionHeight = section.offsetHeight;
+
+  //   gsap.to(section, {
+  //     y: -sectionHeight, // Смещение вверх на высоту самой секции
+  //     duration: 1,
+  //     ease: 'none',
+  //     scrollTrigger: {
+  //       trigger: section,
+  //       start: 'top top', // Начало: верх секции совпадает с верхом экрана
+  //       end: `+=${sectionHeight}`, // Конец: через высоту секции после начала
+  //       scrub: true, // Плавное следование за скроллом
+  //       pin: true, // Закрепление секции во время анимации
+  //       pinSpacing: false, // Отключаем автоматические отступы
+  //       markers: true // Отключить маркеры отладки (для продакшена)
+  //     }
+  //   });
+  // });
+
+  gsap.utils.toArray('.slide-box').forEach((box, index) => {
+
+    gsap.set(box, { x: '100vw' });
+
+    gsap.to(box, {
+      x: 0,
+      scale: 1.05,
+      rotation: '-1deg',
+      duration: 2,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: box,
+        start: 'top 80%',
+        end: '+=600',
+        scrub: 0.8,
+        pin: false,
+        markers: false,
+
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.set(box, {
+            x: `calc(100vw - ${progress * 100}vw)`,
+            scale: 1 + (progress * 0.05),
+            rotation: `-${progress * 2}deg`
+          });
+        },
+
+        onEnter: () => {
+          gsap.to(box, { opacity: 1, duration: 0.3 });
+        },
+        onLeave: () => {
+          gsap.to(box, { opacity: 0.7, duration: 0.2 });
+        }
+      }
+    });
   });
 
 });

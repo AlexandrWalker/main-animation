@@ -1,0 +1,125 @@
+@use './../mixins' as *;
+
+.certificate {
+  background-color: var(--black);
+
+  position: relative;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    min-height: 70rem;
+  }
+
+  &__body {}
+
+  &__items {
+    position: relative;
+    max-width: 33.5rem;
+    height: 22rem;
+    transform-origin: left top;
+
+    @include md {
+      transform: scale(0.9);
+      margin-left: 2rem;
+    }
+
+    @include sm {
+      transform: scale(0.6);
+    }
+
+    @include xs {
+      transform: scale(0.5);
+      margin-left: 1rem;
+    }
+
+    &:hover {
+
+      .card-4 {
+        transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+
+        &:hover {
+          transform: translate(-30px, -60px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        }
+      }
+
+      .card-3 {
+        transform: translate(-90px, -20px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+
+        &:hover {
+          transform: translate(-90px, -50px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        }
+      }
+
+      .card-2 {
+        transform: translate(-120px, -10px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+
+        &:hover {
+          transform: translate(-120px, -40px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        }
+      }
+
+      .card-1 {
+        transform: translate(-30px, 0px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+
+        &:hover {
+          transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        }
+      }
+    }
+  }
+
+  &__item {
+    width: 33.5rem;
+    height: 22rem;
+    background: radial-gradient(218.51% 281.09% at 100% 100%, rgba(253, 63, 51, 0.6) 0%, rgba(76, 0, 200, 0.6) 45.83%, rgba(76, 0, 200, 0.6) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    cursor: pointer;
+    border-radius: 3rem;
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+
+    position: absolute;
+    transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: auto;
+
+    &-title {
+      color: var(--white);
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+
+    &-img {
+      width: 4.4rem;
+      height: 4.4rem;
+    }
+
+    &.card-1 {
+      top: 0;
+      left: 0;
+    }
+
+    &.card-2 {
+      top: 2rem;
+      left: 20rem;
+      background: radial-gradient(100% 128.38% at 100% 100%, rgba(51, 168, 253, 0.2) 0%, rgba(76, 0, 200, 0.2) 100%);
+      box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+    }
+
+    &.card-3 {
+      top: 4rem;
+      left: 28rem;
+      background: radial-gradient(120% 154.37% at 100% 100%, rgba(51, 253, 241, 0.1) 0%, rgba(200, 96, 0, 0.1) 100%);
+      box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+    }
+
+    &.card-4 {
+      top: 6rem;
+      left: 31rem;
+      background: linear-gradient(rgb(117, 224, 230) 0%, rgb(57, 19, 184) 100%);
+      box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+    }
+  }
+}
