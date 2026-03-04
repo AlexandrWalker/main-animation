@@ -39,7 +39,6 @@ body {
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
-  position: relative;
 }
 
 .footer {
@@ -53,6 +52,7 @@ section {
   overflow-x: hidden;
   overflow-y: visible;
   will-change: transform;
+  background-color: var(--bg);
 }
 
 a {
@@ -153,6 +153,14 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
   src: url("../fonts/Montserrat-ExtraBold.woff2") format("woff2"), url("../fonts/Montserrat-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
@@ -163,6 +171,14 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-ExtraLight.woff2") format("woff2"), url("../fonts/Montserrat-ExtraLight.woff") format("woff");
   font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
+  src: url("../fonts/Montserrat-Light.woff2") format("woff2"), url("../fonts/Montserrat-Light.woff") format("woff");
+  font-weight: 300;
   font-style: normal;
 }
 
@@ -187,22 +203,6 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-SemiBold.woff2") format("woff2"), url("../fonts/Montserrat-SemiBold.woff") format("woff");
   font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
-  src: url("../fonts/Montserrat-Light.woff2") format("woff2"), url("../fonts/Montserrat-Light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
-  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
-  font-weight: 700;
   font-style: normal;
 }
 
@@ -903,6 +903,25 @@ p {
 .footer {
   height: 100vh;
   height: 100dvh;
+  background-color: var(--yellow);
+}
+
+.footer__inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+}
+
+.footer .general__title h2 {
+  font-size: 5rem;
+  color: var(--white);
 }
 
 .header nav {
@@ -1435,6 +1454,74 @@ p {
 
 .sample__item-title {
   color: var(--blue);
+}
+
+.stack-group {
+  position: relative;
+}
+
+.stack-trigger {
+  position: relative;
+}
+
+.stack-sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--z);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stack-section {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* После стека */
+
+.after-stack {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #f0f0f0;
+  font-size: 2rem;
+}
+
+/* Футер */
+
+.footer-trigger {
+  position: relative;
+  height: 100vh;
+  /* Заезжаем на контент сверху на 100vh */
+  z-index: 2;
+}
+
+.footer-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .template {
@@ -2376,6 +2463,10 @@ p {
 
   p {
     font-size: 1.2rem;
+  }
+
+  .footer .general__title h2 {
+    font-size: 3rem;
   }
 
   .product__content {
