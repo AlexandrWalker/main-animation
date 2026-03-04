@@ -1485,13 +1485,16 @@ document.addEventListener('DOMContentLoaded', () => {
         from: 'start'
       },
       ease: 'power.out',
-      scrub: 0.7,
-      pin: true,
-      pinSpacing: true,
+
+      // scrub: 0.7,
+      // pin: true,
+      // pinSpacing: true,
       scrollTrigger: {
         trigger: dataAnimItem,
-        start: 'top 90%',
-        toggleActions: 'play none none none'
+        start: 'top center',
+        end: 'bottom top',
+        toggleActions: 'play none none none',
+        // markers: true,
       }
     });
   });
@@ -1572,6 +1575,111 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  });
+
+  // function initStackSections() {
+  //   const wrapper = document.querySelector('.stack-wrapper');
+  //   const sections = gsap.utils.toArray('.stack-section');
+  //   const total = sections.length;
+
+  //   wrapper.style.height = `${total * 100}vh`;
+
+  //   sections.forEach((section, index) => {
+  //     if (index === 0) return;
+
+  //     gsap.set(section, {
+  //       yPercent: 100,
+  //       // borderRadius: '30px 30px 0 0',
+  //     });
+
+  //     ScrollTrigger.create({
+  //       trigger: wrapper,
+  //       start: () => `${index * (100 / total)}% top`,
+  //       end: () => `${(index + 1) * (100 / total)}% top`,
+  //       scrub: true,
+  //       onUpdate(self) {
+  //         const p = self.progress;
+
+  //         gsap.set(section, {
+  //           yPercent: 100 - p * 100,
+  //           // borderRadius: `${30 - p * 30}px ${30 - p * 30}px 0 0`,
+  //         });
+
+  //         const prev = sections[index - 1];
+  //         gsap.set(prev, {
+  //           // scale: 1 - p * 0.05,
+  //           // filter: `brightness(${1 - p * 0.2})`,
+  //           // borderRadius: `${p * 20}px`,
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+
+  // initStackSections();
+
+  function initStackGroup(group) {
+    const triggers = group.querySelectorAll(':scope > .stack-trigger');
+    const total = triggers.length;
+
+    // Только (total - 1) * 100vh для переходов
+    // Последняя секция не добавляет высоту — она sticky и уйдёт когда придёт следующий контент
+    group.style.height = `${(total - 1) * 100}vh`;
+
+    triggers.forEach((trigger, index) => {
+      const sticky = trigger.querySelector('.stack-sticky');
+
+      sticky.style.zIndex = index + 1;
+      trigger.style.height = '0px';
+
+      if (index === 0) return;
+
+      gsap.set(sticky, { yPercent: 100 });
+
+      ScrollTrigger.create({
+        trigger: group,
+        start: () => `${(index - 1) / (total - 1) * 100}% top`,
+        end: () => `${index / (total - 1) * 100}% top`,
+        scrub: true,
+        onUpdate(self) {
+          gsap.set(sticky, { yPercent: 100 - self.progress * 100 });
+        },
+        onLeave() {
+          gsap.set(sticky, { yPercent: 0 });
+        },
+        onEnterBack() {
+          gsap.set(sticky, { yPercent: 0 });
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll('.stack-group').forEach(initStackGroup);
+
+
+
+  
+
+  const footerTrigger = document.querySelector('.footer-trigger');
+  const footerSticky = document.querySelector('.footer-sticky');
+
+  gsap.set(footerSticky, { yPercent: 100 });
+
+  ScrollTrigger.create({
+    trigger: footerTrigger,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+    // markers: true,
+    onUpdate(self) {
+      gsap.set(footerSticky, { yPercent: 100 - self.progress * 100 });
+    },
+    onLeave() {
+      gsap.set(footerSticky, { yPercent: 0 });
+    },
+    onEnterBack() {
+      gsap.set(footerSticky, { yPercent: 0 });
+    }
   });
 
 });

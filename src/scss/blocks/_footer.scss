@@ -3,4 +3,25 @@
 .footer {
   height: 100vh;
   height: 100dvh;
+
+  background-color: var(--yellow);
+
+  &__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .general__title {
+
+    h2 {
+      font-size: 5rem;
+      color: var(--white);
+
+      @include md {
+        font-size: 3rem;
+      }
+    }
+  }
 }
