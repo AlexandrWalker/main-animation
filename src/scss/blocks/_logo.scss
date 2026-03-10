@@ -1,1 +1,9 @@
 @use './../mixins' as *;
+
+.logo {
+
+  a {
+    font-weight: 900;
+    font-size: 3.2rem;
+  }
+}

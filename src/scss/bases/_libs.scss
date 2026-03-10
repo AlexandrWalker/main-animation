@@ -4,17 +4,8 @@
   max-width: 100%;
   overflow: visible;
 
-  // @include md {
-  //   max-width: unset;
-  //   width: 100vw;
-  //   margin-left: calc(var(--container-padding) * -1);
-  //   padding: 0 var(--container-padding);
-  // }
-
   &-slide {
     height: auto;
-    // opacity: 0;
-    // pointer-events: none;
     transition: opacity 0.5s ease;
 
     &-visible {
@@ -44,13 +35,16 @@
   &-button {
 
     &-prev {
+      left: -7rem;
 
       i {
         transform: scale(-1, -1);
       }
     }
 
-    &-next {}
+    &-next {
+      right: -7rem;
+    }
 
     &-disabled {
       opacity: 0.5 !important;
@@ -58,23 +52,29 @@
     }
   }
 
-  // &-watch-progress {
+  &-pagination {
+    line-height: 0.5rem;
+    font-size: 0.5rem;
 
-  //   .swiper-slide {
-  //     opacity: 0;
-  //     pointer-events: none;
-  //     /* Чтобы нельзя было кликнуть по невидимому слайду */
-  //     backface-visibility: hidden;
-  //     /* Включает GPU-ускорение */
-  //     contain: paint;
-  //     /* Подсказывает браузеру не отрисовывать то, что за пределами слайда */
+    top: calc(100% + 1.5rem) !important;
+    bottom: unset !important;
 
-  //     &.slide-visible {
-  //       opacity: 1;
-  //       pointer-events: auto;
-  //     }
-  //   }
-  // }
+    @include domd {
+      display: none;
+    }
+
+    &-bullet {
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0 0.25rem !important;
+      background-color: var(--gray);
+      opacity: 1;
+
+      &-active {
+        background-color: var(--black);
+      }
+    }
+  }
 }
 
 [class^="swiper-button-"],
@@ -92,14 +92,22 @@
   top: 50%;
   transform: translateY(-50%);
 
+  @include sm {
+    display: none;
+  }
+
   &:hover {
     background-color: var(--blue);
 
     color: var(--white);
   }
 
-  @include sm {
+  &::after {
     display: none;
+  }
+
+  i {
+    --font-size: 4rem;
   }
 
   .general__foot & {
@@ -109,49 +117,8 @@
     }
   }
 
-  i {
-    --font-size: 4rem;
-  }
-
-  &::after {
-    display: none;
-  }
-
   .swiper-navigation-icon {
     display: none;
-  }
-}
-
-.swiper-button-prev {
-  left: -7rem;
-}
-
-.swiper-button-next {
-  right: -7rem;
-}
-
-/* Пагинация слайдера */
-.swiper-pagination {
-  line-height: 0.5rem;
-  font-size: 0.5rem;
-
-  top: calc(100% + 1.5rem) !important;
-  bottom: unset !important;
-
-  @include domd {
-    display: none;
-  }
-
-  &-bullet {
-    width: 0.5rem;
-    height: 0.5rem;
-    margin: 0 0.25rem !important;
-    background-color: var(--gray);
-    opacity: 1;
-
-    &-active {
-      background-color: var(--black);
-    }
   }
 }
 
@@ -177,36 +144,3 @@
 // .category__slider-highlight[data-direction="prev"] {
 //   clip-path: inset(0 0% 0 0);
 // }
-
-/* ----------------------------------------------------------------
-   Когда начался виртуальный режим края —
-   swiper-slide-active получает is-before-edge.
-   Сбрасываем здесь все стили которые не должны показываться
-   пока highlight ушёл на другой слайд
----------------------------------------------------------------- */
-.swiper-slide-active.is-before-edge .category__item {
-  /* Пример: отменяем белый текст активного слайда */
-  color: inherit;
-  /* Или скрываем какой-то внутренний элемент */
-}
-
-.swiper-slide-active.is-before-edge .category__item {
-  color: inherit;
-  background-color: var(--white);
-}
-
-/* Виртуальный активный слайд — получает те же стили что swiper-slide-active */
-.is-virtual-active.is-before-edge .category__item,
-.swiper-slide-active .category__item,
-.is-virtual-active .category__item {
-  color: var(--white);
-  /* или любые стили активного слайда */
-
-  background-color: var(--blue);
-
-  i {
-    color: var(--blue);
-    background-color: var(--white);
-    transform: translateX(1rem);
-  }
-}

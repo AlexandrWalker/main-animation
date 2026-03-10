@@ -306,15 +306,42 @@ img {
   gap: 1rem;
 }
 
+.swiper-button-prev {
+  left: -7rem;
+}
+
 .swiper-button-prev i {
   -webkit-transform: scale(-1, -1);
   -ms-transform: scale(-1, -1);
   transform: scale(-1, -1);
 }
 
+.swiper-button-next {
+  right: -7rem;
+}
+
 .swiper-button-disabled {
   opacity: 0.5 !important;
   pointer-events: none;
+}
+
+.swiper-pagination {
+  line-height: 0.5rem;
+  font-size: 0.5rem;
+  top: calc(100% + 1.5rem) !important;
+  bottom: unset !important;
+}
+
+.swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.25rem !important;
+  background-color: var(--gray);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--black);
 }
 
 [class^=swiper-button-],
@@ -340,86 +367,19 @@ img {
   color: var(--white);
 }
 
-[class^=swiper-button-] i,
-[class*=" swiper-button-"] i {
-  --font-size: 4rem;
-}
-
 [class^=swiper-button-]::after,
 [class*=" swiper-button-"]::after {
   display: none;
 }
 
+[class^=swiper-button-] i,
+[class*=" swiper-button-"] i {
+  --font-size: 4rem;
+}
+
 [class^=swiper-button-] .swiper-navigation-icon,
 [class*=" swiper-button-"] .swiper-navigation-icon {
   display: none;
-}
-
-.swiper-button-prev {
-  left: -7rem;
-}
-
-.swiper-button-next {
-  right: -7rem;
-}
-
-/* Пагинация слайдера */
-
-.swiper-pagination {
-  line-height: 0.5rem;
-  font-size: 0.5rem;
-  top: calc(100% + 1.5rem) !important;
-  bottom: unset !important;
-}
-
-.swiper-pagination-bullet {
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: 0 0.25rem !important;
-  background-color: var(--gray);
-  opacity: 1;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: var(--black);
-}
-
-/* ----------------------------------------------------------------
-   Когда начался виртуальный режим края —
-   swiper-slide-active получает is-before-edge.
-   Сбрасываем здесь все стили которые не должны показываться
-   пока highlight ушёл на другой слайд
----------------------------------------------------------------- */
-
-.swiper-slide-active.is-before-edge .category__item {
-  /* Пример: отменяем белый текст активного слайда */
-  color: inherit;
-  /* Или скрываем какой-то внутренний элемент */
-}
-
-.swiper-slide-active.is-before-edge .category__item {
-  color: inherit;
-  background-color: var(--white);
-}
-
-/* Виртуальный активный слайд — получает те же стили что swiper-slide-active */
-
-.is-virtual-active.is-before-edge .category__item,
-.swiper-slide-active .category__item,
-.is-virtual-active .category__item {
-  color: var(--white);
-  /* или любые стили активного слайда */
-  background-color: var(--blue);
-}
-
-.is-virtual-active.is-before-edge .category__item i,
-.swiper-slide-active .category__item i,
-.is-virtual-active .category__item i {
-  color: var(--blue);
-  background-color: var(--white);
-  -webkit-transform: translateX(1rem);
-  -ms-transform: translateX(1rem);
-  transform: translateX(1rem);
 }
 
 /* Reset and base styles  */
@@ -833,6 +793,14 @@ body {
   z-index: 1;
 }
 
+.icon-telegram {
+  background-color: #0088cc;
+}
+
+.icon-max {
+  background-color: #356BEF;
+}
+
 /* Главный заголовок страницы */
 
 .h1,
@@ -904,6 +872,7 @@ p {
   height: 100vh;
   height: 100dvh;
   background-color: var(--yellow);
+  z-index: 2;
 }
 
 .footer__inner {
@@ -924,6 +893,34 @@ p {
   color: var(--white);
 }
 
+.header {
+  height: var(--header-height);
+  background-color: var(--bg);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header__inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+}
+
 .header nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -942,6 +939,42 @@ p {
 
 .header nav a:hover {
   color: var(--blue);
+}
+
+.header__contatcs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.header__contatcs-link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: var(--white);
+}
+
+.header__contatcs-link i {
+  --font-size: 3rem;
+}
+
+.logo a {
+  font-weight: 900;
+  font-size: 3.2rem;
 }
 
 .product__inner {
@@ -1456,76 +1489,14 @@ p {
   color: var(--blue);
 }
 
-.stack-group {
-  position: relative;
-}
-
-.stack-trigger {
-  position: relative;
-}
-
-.stack-sticky {
-  position: sticky;
-  top: 0;
-  z-index: var(--z);
-  height: 100vh;
-  overflow: hidden;
-}
-
-.stack-section {
-  width: 100%;
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* После стека */
-
-.after-stack {
-  height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background: #f0f0f0;
-  font-size: 2rem;
-}
-
-/* Футер */
-
-.footer-trigger {
-  position: relative;
-  height: 100vh;
-  /* Заезжаем на контент сверху на 100vh */
-  z-index: 2;
-}
-
-.footer-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
 .template {
   position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.template-2 {
+  z-index: 2;
 }
 
 .template .general__text p {
@@ -1920,6 +1891,8 @@ p {
 .advan {
   --photo-size: 6rem;
   --head-gap: 2rem;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .advan__body {
@@ -2041,6 +2014,28 @@ p {
   position: relative;
 }
 
+.swiper-slide-active.is-before-edge .category__item {
+  color: inherit;
+  background-color: var(--white);
+}
+
+.swiper-slide-active .category__item,
+.is-virtual-active.is-before-edge .category__item,
+.is-virtual-active .category__item {
+  color: var(--white);
+  background-color: var(--blue);
+}
+
+.swiper-slide-active .category__item i,
+.is-virtual-active.is-before-edge .category__item i,
+.is-virtual-active .category__item i {
+  color: var(--blue);
+  background-color: var(--white);
+  -webkit-transform: translateX(1rem);
+  -ms-transform: translateX(1rem);
+  transform: translateX(1rem);
+}
+
 .category__item-content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2092,7 +2087,10 @@ p {
 
 .certificate {
   background-color: var(--black);
+  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
+  z-index: 2;
 }
 
 .certificate__inner {
@@ -2275,6 +2273,17 @@ p {
   padding: 2rem 2rem 3rem;
   border-radius: 2rem;
   background-color: var(--white);
+  -webkit-transition: -webkit-box-shadow 0.5s ease;
+  transition: -webkit-box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease, -webkit-box-shadow 0.5s ease;
+}
+
+.swiper-slide-active .reviews__item,
+.is-virtual-active.is-before-edge .reviews__item,
+.is-virtual-active .reviews__item {
+  -webkit-box-shadow: inset 0px 0px 0px 2px rgba(53, 175, 218, 0.5);
+  box-shadow: inset 0px 0px 0px 2px rgba(53, 175, 218, 0.5);
 }
 
 .reviews__item-head {
@@ -2467,6 +2476,10 @@ p {
 
   .footer .general__title h2 {
     font-size: 3rem;
+  }
+
+  .header nav {
+    display: none;
   }
 
   .product__content {

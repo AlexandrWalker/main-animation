@@ -1485,202 +1485,174 @@ document.addEventListener('DOMContentLoaded', () => {
         from: 'start'
       },
       ease: 'power.out',
-
-      // scrub: 0.7,
-      // pin: true,
-      // pinSpacing: true,
       scrollTrigger: {
         trigger: dataAnimItem,
         start: 'top center',
         end: 'bottom top',
         toggleActions: 'play none none none',
-        // markers: true,
       }
     });
   });
 
-  // const sections = gsap.utils.toArray('section');
+  // (function () {
+  //   const galleryItems = gsap.utils.toArray('[data-anim="gallery"]');
 
-  // sections.forEach((section, index) => {
-  //   gsap.to(section, {
-  //     y: -section.offsetHeight, // Смещение вверх на высоту самой секции
-  //     duration: 1,
-  //     ease: 'none',
+  //   const tl = gsap.timeline({
   //     scrollTrigger: {
-  //       trigger: section,
-  //       start: 'top top', // Начало: верх секции совпадает с верхом экрана
-  //       end: `+=${section.offsetHeight}`, // Конец: через высоту секции после начала
-  //       scrub: true, // Плавное следование за скроллом
-  //       pin: true, // Закрепление секции во время анимации
-  //       pinSpacing: false, // Отключаем автоматические отступы
-  //       markers: false // Отключить маркеры отладки (для продакшена)
+  //       trigger: '.gallery',
+  //       start: 'top top',
+  //       end: () => `+=${galleryItems.length * 500}`,
+  //       pin: true,
+  //       scrub: 1,
+  //       anticipatePin: 1,
   //     }
   //   });
-  // });
 
-  // const sections = gsap.utils.toArray('section');
-
-  // sections.forEach((section, index) => {
-  //   // Получаем высоту текущей секции
-  //   const sectionHeight = section.offsetHeight;
-
-  //   gsap.to(section, {
-  //     y: -sectionHeight, // Смещение вверх на высоту самой секции
-  //     duration: 1,
-  //     ease: 'none',
-  //     scrollTrigger: {
-  //       trigger: section,
-  //       start: 'top top', // Начало: верх секции совпадает с верхом экрана
-  //       end: `+=${sectionHeight}`, // Конец: через высоту секции после начала
-  //       scrub: true, // Плавное следование за скроллом
-  //       pin: true, // Закрепление секции во время анимации
-  //       pinSpacing: false, // Отключаем автоматические отступы
-  //       markers: true // Отключить маркеры отладки (для продакшена)
-  //     }
+  //   galleryItems.forEach((item, i) => {
+  //     tl.from(item, {
+  //       opacity: 1,
+  //       y: -40,       // появляется сверху и едет вниз к своей позиции
+  //       ease: 'none', // при scrub лучше использовать 'none' для линейности
+  //       duration: 1,
+  //     }, i * 0.5);    // каждый стартует на половине duration предыдущего
   //   });
-  // });
+  // })();
 
-  gsap.utils.toArray('.slide-box').forEach((box, index) => {
+  (function () {
+    const header = document.querySelector('.header');
+    const headerHeight = header.offsetHeight;
 
-    gsap.set(box, { x: '100vw' });
-
-    gsap.to(box, {
-      x: 0,
-      scale: 1.05,
-      rotation: '-1deg',
-      duration: 2,
-      ease: 'none',
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: box,
-        start: 'top 80%',
-        end: '+=600',
-        scrub: 0.8,
-        pin: false,
-        markers: false,
-
-        onUpdate: (self) => {
-          const progress = self.progress;
-          gsap.set(box, {
-            x: `calc(100vw - ${progress * 100}vw)`,
-            scale: 1 + (progress * 0.05),
-            rotation: `-${progress * 2}deg`
-          });
-        },
-
-        onEnter: () => {
-          gsap.to(box, { opacity: 1, duration: 0.3 });
-        },
-        onLeave: () => {
-          gsap.to(box, { opacity: 0.7, duration: 0.2 });
-        }
+        trigger: 'body',
+        start: 'top top',
+        end: () => `+=${headerHeight}`,
+        scrub: true,
       }
     });
-  });
 
-  // function initStackSections() {
-  //   const wrapper = document.querySelector('.stack-wrapper');
-  //   const sections = gsap.utils.toArray('.stack-section');
-  //   const total = sections.length;
-
-  //   wrapper.style.height = `${total * 100}vh`;
-
-  //   sections.forEach((section, index) => {
-  //     if (index === 0) return;
-
-  //     gsap.set(section, {
-  //       yPercent: 100,
-  //       // borderRadius: '30px 30px 0 0',
-  //     });
-
-  //     ScrollTrigger.create({
-  //       trigger: wrapper,
-  //       start: () => `${index * (100 / total)}% top`,
-  //       end: () => `${(index + 1) * (100 / total)}% top`,
-  //       scrub: true,
-  //       onUpdate(self) {
-  //         const p = self.progress;
-
-  //         gsap.set(section, {
-  //           yPercent: 100 - p * 100,
-  //           // borderRadius: `${30 - p * 30}px ${30 - p * 30}px 0 0`,
-  //         });
-
-  //         const prev = sections[index - 1];
-  //         gsap.set(prev, {
-  //           // scale: 1 - p * 0.05,
-  //           // filter: `brightness(${1 - p * 0.2})`,
-  //           // borderRadius: `${p * 20}px`,
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
-
-  // initStackSections();
-
-  function initStackGroup(group) {
-    const triggers = group.querySelectorAll(':scope > .stack-trigger');
-    const total = triggers.length;
-
-    // Только (total - 1) * 100vh для переходов
-    // Последняя секция не добавляет высоту — она sticky и уйдёт когда придёт следующий контент
-    group.style.height = `${(total - 1) * 100}vh`;
-
-    triggers.forEach((trigger, index) => {
-      const sticky = trigger.querySelector('.stack-sticky');
-
-      sticky.style.zIndex = index + 1;
-      trigger.style.height = '0px';
-
-      if (index === 0) return;
-
-      gsap.set(sticky, { yPercent: 100 });
-
-      ScrollTrigger.create({
-        trigger: group,
-        start: () => `${(index - 1) / (total - 1) * 100}% top`,
-        end: () => `${index / (total - 1) * 100}% top`,
-        scrub: true,
-        onUpdate(self) {
-          gsap.set(sticky, { yPercent: 100 - self.progress * 100 });
-        },
-        onLeave() {
-          gsap.set(sticky, { yPercent: 0 });
-        },
-        onEnterBack() {
-          gsap.set(sticky, { yPercent: 0 });
-        }
-      });
+    tl.to(header, {
+      backgroundColor: 'rgb(255, 255, 255)',
+      height: headerHeight * 0.7,
+      boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)',
+      ease: 'none',
+      duration: 1,
     });
+  })();
+
+  function advanFunc() {
+
+    let advanTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".advan",
+        start: "top bottom-=30%",
+      }
+    })
   }
 
-  document.querySelectorAll('.stack-group').forEach(initStackGroup);
+  function certificateFunc() {
 
+    let certificatePin = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".advan",
+        start: "bottom bottom",
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+      }
+    })
+  }
 
+  advanFunc();
+  certificateFunc();
 
-  
+  function temp1Func() {
 
-  const footerTrigger = document.querySelector('.footer-trigger');
-  const footerSticky = document.querySelector('.footer-sticky');
+    let tempTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".template-1",
+        start: "top bottom-=30%",
+      }
+    })
+  }
 
-  gsap.set(footerSticky, { yPercent: 100 });
+  function temp2Func() {
 
-  ScrollTrigger.create({
-    trigger: footerTrigger,
-    start: 'top bottom',
-    end: 'top top',
-    scrub: true,
-    // markers: true,
-    onUpdate(self) {
-      gsap.set(footerSticky, { yPercent: 100 - self.progress * 100 });
-    },
-    onLeave() {
-      gsap.set(footerSticky, { yPercent: 0 });
-    },
-    onEnterBack() {
-      gsap.set(footerSticky, { yPercent: 0 });
-    }
-  });
+    let tempPin = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".template-1",
+        start: "bottom bottom",
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+      }
+    })
+  }
+
+  temp1Func();
+  temp2Func();
+
+  function galleryFunc() {
+
+    let galleryTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".gallery",
+        start: "top bottom-=30%",
+      }
+    })
+  }
+
+  function footerFunc() {
+
+    let footerPin = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".gallery",
+        start: "bottom bottom",
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+      }
+    })
+  }
+
+  galleryFunc();
+  footerFunc();
+
+  // === iOS-safe ScrollTrigger refresh handler ===
+
+  (function () {
+    let resizeTimer;
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+
+    // Функция для стабильного пересчёта
+    const safeRefresh = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const currentWidth = window.innerWidth;
+        const currentHeight = window.innerHeight;
+
+        // Проверяем — реально ли изменился размер экрана
+        const widthChanged = Math.abs(currentWidth - lastWidth) > 50;
+        const heightChanged = Math.abs(currentHeight - lastHeight) > 150;
+
+        if (widthChanged || heightChanged) {
+          lastWidth = currentWidth;
+          lastHeight = currentHeight;
+          console.log('refresh');
+          ScrollTrigger.refresh();
+        }
+      }, 250); // debounce 250ms — достаточно для всех платформ
+    };
+
+    // Реакция на изменение ориентации (особенно важно для iOS)
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => ScrollTrigger.refresh(), 300);
+    });
+
+    // Реакция на реальный resize, но фильтруем “мусорные” вызовы
+    window.addEventListener('resize', safeRefresh);
+  })();
 
 });
 

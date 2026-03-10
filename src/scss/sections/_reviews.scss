@@ -17,6 +17,13 @@
     padding: 2rem 2rem 3rem;
     border-radius: 2rem;
     background-color: var(--white);
+    transition: box-shadow 0.5s ease;
+
+    .swiper-slide-active &,
+    .is-virtual-active.is-before-edge &,
+    .is-virtual-active & {
+      box-shadow: inset 0px 0px 0px 2px rgba(53, 175, 218, 0.5);
+    }
 
     &-head {
       display: flex;
@@ -68,8 +75,6 @@
       }
     }
 
-    &-text {
-
-    }
+    &-text {}
   }
 }

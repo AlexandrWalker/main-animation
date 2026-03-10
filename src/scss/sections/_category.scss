@@ -70,7 +70,6 @@
     border-radius: 1.5rem;
     overflow: hidden;
     height: 100%;
-    // background-color: var(--white);
     box-shadow: 5px 12px 23px rgba(113, 133, 149, 0.1);
 
     position: relative;
@@ -78,22 +77,6 @@
     @include md {
       box-shadow: 0 0 5px 5px rgba(113, 133, 149, 0.1);
     }
-
-    // &::before {
-    //   content: "";
-    //   display: block;
-    //   width: 100%;
-    //   height: 100%;
-    //   background-color: var(--blue);
-    //   transform: scaleX(0);
-    //   transform-origin: left;
-    //   transition: all 0.5s ease-in-out;
-
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   z-index: 1;
-    // }
 
     &:hover {
 
@@ -106,6 +89,24 @@
           background-color: var(--white);
           transform: translateX(1rem);
         }
+      }
+    }
+
+    .swiper-slide-active.is-before-edge & {
+      color: inherit;
+      background-color: var(--white);
+    }
+
+    .swiper-slide-active &,
+    .is-virtual-active.is-before-edge &,
+    .is-virtual-active & {
+      color: var(--white);
+      background-color: var(--blue);
+
+      i {
+        color: var(--blue);
+        background-color: var(--white);
+        transform: translateX(1rem);
       }
     }
 

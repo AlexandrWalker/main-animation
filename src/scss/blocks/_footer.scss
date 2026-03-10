@@ -5,6 +5,7 @@
   height: 100dvh;
 
   background-color: var(--yellow);
+  z-index: 2;
 
   &__inner {
     display: flex;

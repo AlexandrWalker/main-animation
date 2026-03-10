@@ -4,6 +4,9 @@
   --photo-size: 6rem;
   --head-gap: 2rem;
 
+  min-height: 100vh;
+  min-height: 100dvh;
+
   &__body {
     position: relative;
   }

@@ -2,8 +2,12 @@
 
 .certificate {
   background-color: var(--black);
+  
+  min-height: 100vh;
+  min-height: 100dvh;
 
   position: relative;
+  z-index: 2;
 
   &__inner {
     display: flex;
