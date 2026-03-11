@@ -1,14 +1,34 @@
 @use './../mixins' as *;
 
 .header {
+  width: 100%;
   height: var(--header-height);
-  background-color: var(--bg);
+  // background-color: var(--bg);
+  background-color: rgba(255, 255, 255, 0);
+
+  box-sizing: border-box;
+  will-change: transform;
+  padding-top: env(safe-area-inset-top);
 
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   z-index: 1000;
+
+  &.header-out {
+    pointer-events: none;
+  }
+
+  &.html.header-fixed {}
+
+  /* хедер зафиксировался */
+  &.html.header-off-top {}
+
+  /* прошли первую секцию */
+  &.html.header-at-footer {}
+
+  /* хедер у футера */
 
   &__inner {
     display: flex;
@@ -32,13 +52,17 @@
 
     a {
 
+      .header-theme-dark & {
+        color: var(--white);
+      }
+
       &:hover {
         color: var(--blue);
       }
     }
   }
 
-  &__contatcs {
+  &__contacts {
     display: flex;
     flex-direction: row;
     gap: 1rem;

@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================================================================
     if (!document.querySelector('.swiper')) return;
 
-
     // ================================================================
     // ГЛОБАЛЬНЫЕ НАСТРОЙКИ ИМПУЛЬСА
     //
@@ -1452,28 +1451,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /**
-   * Анимация блока
+   * Анимация картинок галереи
    */
-  // Анимация border-radius при скролле
-  const animatedContainers = document.querySelectorAll('.animated-container');
-  animatedContainers.forEach(animatedContainer => {
-    const animatedBox = animatedContainer.querySelector('.animated-box');
-    gsap.to(animatedBox, {
-      borderRadius: '0%', // Конечное значение border-radius
-      duration: 1, // Длительность анимации (в секундах)
-      ease: 'power2.inOut', // Плавность анимации
-
-      // Настройки ScrollTrigger
-      scrollTrigger: {
-        trigger: animatedContainer, // Элемент-триггер
-        start: 'top center', // Начало анимации: верх секции достигает центра экрана
-        end: 'bottom center', // Конец анимации: низ секции достигает центра экрана
-        scrub: true, // Анимация следует за скроллом
-        toggleClass: { targets: animatedBox, className: 'active' } // Опционально: добавление класса
-      }
-    });
-  });
-
   gsap.utils.toArray('[data-anim="gallery"]').forEach(dataAnimItem => {
     gsap.from(dataAnimItem, {
       duration: 0.8,
@@ -1494,50 +1473,345 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // (function () {
-  //   const galleryItems = gsap.utils.toArray('[data-anim="gallery"]');
-
-  //   const tl = gsap.timeline({
-  //     scrollTrigger: {
-  //       trigger: '.gallery',
-  //       start: 'top top',
-  //       end: () => `+=${galleryItems.length * 500}`,
-  //       pin: true,
-  //       scrub: 1,
-  //       anticipatePin: 1,
-  //     }
-  //   });
-
-  //   galleryItems.forEach((item, i) => {
-  //     tl.from(item, {
-  //       opacity: 1,
-  //       y: -40,       // появляется сверху и едет вниз к своей позиции
-  //       ease: 'none', // при scrub лучше использовать 'none' для линейности
-  //       duration: 1,
-  //     }, i * 0.5);    // каждый стартует на половине duration предыдущего
-  //   });
-  // })();
-
+  /**
+   * Анимация border-radius при скролле
+   */
   (function () {
-    const header = document.querySelector('.header');
+    const animatedContainers = document.querySelectorAll('.animated-container');
+    animatedContainers.forEach(animatedContainer => {
+      const animatedBox = animatedContainer.querySelector('.animated-box');
+      gsap.to(animatedBox, {
+        borderRadius: '0%', // Конечное значение border-radius
+        duration: 1, // Длительность анимации (в секундах)
+        ease: 'power2.inOut', // Плавность анимации
+
+        // Настройки ScrollTrigger
+        scrollTrigger: {
+          trigger: animatedContainer, // Элемент-триггер
+          start: 'top center', // Начало анимации: верх секции достигает центра экрана
+          end: 'bottom center', // Конец анимации: низ секции достигает центра экрана
+          scrub: true, // Анимация следует за скроллом
+          toggleClass: { targets: animatedBox, className: 'active' } // Опционально: добавление класса
+        }
+      });
+    });
+  })();
+
+  /**
+   * Функция для шапки
+   */
+  (function () {
+
+    // ================================================================
+    // НАСТРОЙКИ
+    // ================================================================
+    const CONFIG = {
+
+      // --------------------------------------------------------------
+      // СЕЛЕКТОРЫ
+      // --------------------------------------------------------------
+      headerSelector: '.header',
+      sectionsSelector: 'section',
+      firstSectionSelector: '.hero',      // null = используем высоту хедера
+      footerSelector: '.footer',
+
+      // --------------------------------------------------------------
+      // ТЕМА (светлая / тёмная секция под хедером)
+      // Атрибут на секции: data-header-theme="dark" или "light"
+      // Добавляет класс на <html>: header-theme-dark / header-theme-light
+      // --------------------------------------------------------------
+      themeAttribute: 'data-header-theme',
+      classThemeDark: 'header-theme-dark',
+      classThemeLight: 'header-theme-light',
+
+      // --------------------------------------------------------------
+      // КЛАССЫ НА <html> ДЛЯ СОСТОЯНИЙ СКРОЛЛА
+      // --------------------------------------------------------------
+      classFixed: 'header-fixed',         // прошли 1px скролла
+      classOffTop: 'header-off-top',      // прошли первую секцию
+      classAtFooter: 'header-at-footer',  // хедер у футера
+      classHidden: 'header-hidden',       // хедер скрыт
+
+      // --------------------------------------------------------------
+      // СКРЫТИЕ ХЕДЕРА ПРИ СКРОЛЛЕ ВНИЗ
+      // --------------------------------------------------------------
+      hideOnScroll: true,                // true = скрывать, false = всегда видим
+
+      // Настройки скрытия (работают только если hideOnScroll: true)
+      hideDuration: 0.4,
+      showDuration: 0.4,
+      hideEase: 'power2.in',
+      showEase: 'power2.out',
+      scrollThreshold: 5,                 // минимальный скролл для реакции (px)
+
+      // --------------------------------------------------------------
+      // АНИМАЦИЯ ФОНА ХЕДЕРА ПРИ СКРОЛЛЕ
+      // --------------------------------------------------------------
+      animateBg: false,                    // true = менять фон, false = не менять
+      bgInitial: 'rgba(255, 255, 255, 0)',
+      bgScrolled: 'rgba(255, 255, 255, 1)',
+
+      // --------------------------------------------------------------
+      // АНИМАЦИЯ ТЕНИ ХЕДЕРА ПРИ СКРОЛЛЕ
+      // --------------------------------------------------------------
+      animateShadow: false,                // true = менять тень, false = не менять
+      shadowInitial: '0px 0px 0px rgba(0, 0, 0, 0)',
+      shadowScrolled: '0px 0px 20px rgba(0, 0, 0, 0.3)',
+
+      // --------------------------------------------------------------
+      // АНИМАЦИЯ ВЫСОТЫ ХЕДЕРА ПРИ СКРОЛЛЕ
+      // --------------------------------------------------------------
+      animateHeight: true,                // true = менять высоту, false = не менять
+      heightMultiplier: 0.7,              // во сколько раз уменьшить (0.7 = 70%)
+
+    };
+
+    // ================================================================
+    // ЭЛЕМЕНТЫ
+    // ================================================================
+    const header = document.querySelector(CONFIG.headerSelector);
+    if (!header) return;
+
+    const footer = document.querySelector(CONFIG.footerSelector);
+    const htmlEl = document.documentElement;
     const headerHeight = header.offsetHeight;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: 'body',
-        start: 'top top',
-        end: () => `+=${headerHeight}`,
-        scrub: true,
-      }
-    });
+    const firstSection = CONFIG.firstSectionSelector
+      ? document.querySelector(CONFIG.firstSectionSelector)
+      : null;
 
-    tl.to(header, {
-      backgroundColor: 'rgb(255, 255, 255)',
-      height: headerHeight * 0.7,
-      boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)',
+    // Зона скролла для scrub-анимации
+    const scrollZone = firstSection
+      ? firstSection.offsetHeight
+      : headerHeight;
+
+    // ================================================================
+    // ОПРЕДЕЛЕНИЕ ТЕМЫ ПОД ХЕДЕРОМ
+    // Проходим по секциям, находим ту что пересекается с хедером,
+    // берём её data-header-theme и ставим класс на <html>
+    // ================================================================
+    const updateTheme = () => {
+      const sections = document.querySelectorAll(CONFIG.sectionsSelector);
+      const headerBottom = header.getBoundingClientRect().bottom;
+      let foundTheme = null;
+
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+
+        // Секция пересекается с хедером:
+        // верх секции выше нижней границы хедера И низ секции ниже верха viewport
+        const intersects = rect.top <= headerBottom && rect.bottom >= 0;
+
+        if (intersects) {
+          const theme = section.getAttribute(CONFIG.themeAttribute);
+          if (theme) {
+            foundTheme = theme;
+            break;
+          }
+        }
+      }
+
+      // Сбрасываем оба класса и ставим нужный
+      htmlEl.classList.remove(CONFIG.classThemeDark, CONFIG.classThemeLight);
+
+      if (foundTheme === 'dark') {
+        htmlEl.classList.add(CONFIG.classThemeDark);
+      } else if (foundTheme === 'light') {
+        htmlEl.classList.add(CONFIG.classThemeLight);
+      }
+    };
+
+    // ================================================================
+    // НАЧАЛЬНЫЕ СТИЛИ ХЕДЕРА
+    // Устанавливаем только те свойства которые включены в CONFIG
+    // ================================================================
+    const initialStyles = {
+      yPercent: 0,
+      // Высоту всегда устанавливаем чтобы GSAP знал начальное значение
+      height: headerHeight,
+    };
+
+    if (CONFIG.animateBg) {
+      initialStyles.backgroundColor = CONFIG.bgInitial;
+    }
+
+    if (CONFIG.animateShadow) {
+      initialStyles.boxShadow = CONFIG.shadowInitial;
+    }
+
+    gsap.set(header, initialStyles);
+
+    // ================================================================
+    // GSAP SCRUB — анимация хедера при скролле
+    // Собираем объект анимации только из включённых свойств
+    // ================================================================
+
+    // Объект с целевыми значениями для scrub-анимации
+    const animateTo = {
       ease: 'none',
       duration: 1,
+    };
+
+    if (CONFIG.animateBg) {
+      animateTo.backgroundColor = CONFIG.bgScrolled;
+    }
+
+    if (CONFIG.animateShadow) {
+      animateTo.boxShadow = CONFIG.shadowScrolled;
+    }
+
+    if (CONFIG.animateHeight) {
+      animateTo.height = headerHeight * CONFIG.heightMultiplier;
+    }
+
+    // Запускаем scrub только если есть хотя бы одно включённое свойство
+    const hasScrubAnimation = CONFIG.animateBg || CONFIG.animateShadow || CONFIG.animateHeight;
+
+    if (hasScrubAnimation) {
+      const tlScrub = gsap.timeline({
+        scrollTrigger: {
+          trigger: document.documentElement,
+          start: 'top top',
+          end: `+=\${scrollZone}`,
+          scrub: true,
+          onEnter: () => htmlEl.classList.add(CONFIG.classFixed),
+          onLeaveBack: () => {
+            htmlEl.classList.remove(CONFIG.classFixed);
+            htmlEl.classList.remove(CONFIG.classOffTop);
+          },
+        }
+      });
+
+      tlScrub.to(header, animateTo);
+    }
+
+    // ================================================================
+    // КЛАСС header-off-top — прошли зону анимации
+    // ================================================================
+    ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: `top+=\${scrollZone} top`,
+      onEnter: () => htmlEl.classList.add(CONFIG.classOffTop),
+      onLeaveBack: () => htmlEl.classList.remove(CONFIG.classOffTop),
     });
+
+    // ================================================================
+    // КЛАСС header-at-footer — хедер достиг футера
+    // ================================================================
+    if (footer) {
+      ScrollTrigger.create({
+        trigger: footer,
+        start: 'top bottom',
+        onEnter: () => htmlEl.classList.add(CONFIG.classAtFooter),
+        onLeaveBack: () => htmlEl.classList.remove(CONFIG.classAtFooter),
+      });
+    }
+
+    // ================================================================
+    // HIDE / SHOW ХЕДЕРА
+    // Работает только если CONFIG.hideOnScroll: true
+    // ================================================================
+    let lastScrollY = window.scrollY || window.pageYOffset;
+    let isHidden = false;
+    let ticking = false;
+
+    // Нижняя граница первой секции в координатах страницы
+    const getFirstSectionBottom = () => {
+      if (!firstSection) return scrollZone;
+      return firstSection.getBoundingClientRect().bottom + window.scrollY;
+    };
+
+    const hideHeader = () => {
+      if (isHidden) return;
+      isHidden = true;
+      htmlEl.classList.add(CONFIG.classHidden);
+      gsap.to(header, {
+        yPercent: -100,
+        duration: CONFIG.hideDuration,
+        ease: CONFIG.hideEase,
+        overwrite: 'auto',
+      });
+    };
+
+    const showHeader = () => {
+      if (!isHidden) return;
+      isHidden = false;
+      htmlEl.classList.remove(CONFIG.classHidden);
+      gsap.to(header, {
+        yPercent: 0,
+        duration: CONFIG.showDuration,
+        ease: CONFIG.showEase,
+        overwrite: 'auto',
+      });
+    };
+
+    // ================================================================
+    // ОСНОВНОЙ ОБРАБОТЧИК СКРОЛЛА
+    // ================================================================
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY || window.pageYOffset;
+      const delta = currentScrollY - lastScrollY;
+      const absDelta = Math.abs(delta);
+
+      // Тему обновляем всегда — не зависит от threshold
+      updateTheme();
+
+      // Дальше — только если включено скрытие хедера
+      if (CONFIG.hideOnScroll) {
+
+        // Микро-скроллы игнорируем
+        if (absDelta >= CONFIG.scrollThreshold) {
+          const scrollingDown = delta > 0;
+          const firstSectionBottom = getFirstSectionBottom();
+
+          // Скролл вниз после первой секции — прячем
+          if (scrollingDown && currentScrollY > firstSectionBottom) {
+            hideHeader();
+          }
+
+          // Скролл вверх — показываем
+          if (!scrollingDown) {
+            showHeader();
+          }
+
+          // Самый верх — всегда показываем
+          if (currentScrollY <= 0) {
+            showHeader();
+          }
+
+          lastScrollY = currentScrollY;
+        }
+      } else {
+        // Скрытие выключено — просто обновляем lastScrollY
+        lastScrollY = currentScrollY;
+      }
+
+      ticking = false;
+    };
+
+    // rAF обёртка — не чаще одного раза за кадр
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(handleScroll);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // iOS Safari
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('scroll', onScroll, { passive: true });
+      window.visualViewport.addEventListener('resize', () => {
+        lastScrollY = window.scrollY || window.pageYOffset;
+      });
+    }
+
+    // ================================================================
+    // ИНИЦИАЛИЗАЦИЯ — определяем тему сразу при загрузке страницы
+    // ================================================================
+    updateTheme();
+
   })();
 
   function advanFunc() {
