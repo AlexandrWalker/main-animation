@@ -1892,8 +1892,640 @@ document.addEventListener('DOMContentLoaded', () => {
   galleryFunc();
   footerFunc();
 
-  // === iOS-safe ScrollTrigger refresh handler ===
 
+
+
+  (function () {
+
+    // ─── Конфиг ────────────────────────────────────────────────────────────────
+
+    /**
+     * Список фраз для посимвольной печати.
+     *
+     * Каждая фраза — массив строк (строк = линий).
+     * Каждая строка — массив слов.
+     *
+     * Структура:
+     * [
+     *   [                          ← фраза
+     *     ['слово1', 'слово2'],    ← первая линия
+     *     ['слово3'],              ← вторая линия
+     *     ['слово4', 'слово5'],    ← третья линия
+     *   ],
+     * ]
+     *
+     * Слова совпадают с data-word в HTML — через них применяются CSS-стили.
+     * Порядок слов в массиве = порядок печати слева направо, сверху вниз.
+     */
+    const PHRASES = [
+      [
+        ['за!'],
+        ['уровень'],
+        ['в', ' цифре'],
+      ],
+      [
+        ['след.'],
+        ['фраза'],
+        ['прямо', ' здесь'],
+      ],
+      [
+        ['и ещё'],
+        ['одна'],
+        ['строка'],
+      ],
+    ];
+
+    /**
+     * Скорость печати одного символа (секунды).
+     * TYPE_VARIANCE добавляет случайный разброс — имитация живого набора.
+     */
+    const TYPE_SPEED = 0.07;
+    const TYPE_VARIANCE = 0.04;
+
+    /** Скорость удаления одного символа (секунды). */
+    const DELETE_SPEED = 0.04;
+
+    /**
+     * Паузы (секунды):
+     * PAUSE_AFTER_TYPE   — после полного набора фразы
+     * PAUSE_AFTER_DELETE — после полного удаления (перед следующей фразой)
+     */
+    const PAUSE_AFTER_TYPE = 2.0;
+    const PAUSE_AFTER_DELETE = 0.5;
+
+    // ─── DOM ───────────────────────────────────────────────────────────────────
+
+    const cursorEl = document.querySelector('.typewriter__cursor');
+
+    /**
+     * Собираем все .typewriter__word в Map: data-word → элемент.
+     *
+     * Map выбран вместо объекта потому что:
+     * - гарантирует порядок вставки (важно при итерации)
+     * - ключи строго строковые без коллизий с прототипом
+     *
+     * Пример результата:
+     * wordMap = {
+     *   'за!'     → <span data-word="за!">,
+     *   'уровень' → <span data-word="уровень">,
+     *   'в'       → <span data-word="в">,
+     *   'цифре'   → <span data-word="цифре">,
+     * }
+     */
+    const wordMap = new Map();
+    document.querySelectorAll('.typewriter__word').forEach(el => {
+      wordMap.set(el.dataset.word, el);
+    });
+
+    // ─── Курсор: мигание ───────────────────────────────────────────────────────
+
+    /**
+     * Бесконечное мигание курсора.
+     * pause() / resume() синхронизируют мигание с циклом печати:
+     * курсор статичен во время набора/удаления, мигает в паузах.
+     */
+    const cursorTween = gsap.to(cursorEl, {
+      opacity: 0,
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+      ease: 'none',
+    });
+
+    // ─── Вспомогательные функции ───────────────────────────────────────────────
+
+    /**
+     * Случайная задержка вокруг TYPE_SPEED.
+     * @returns {number} секунды
+     */
+    function getTypeDelay() {
+      return TYPE_SPEED + (Math.random() * 2 - 1) * TYPE_VARIANCE;
+    }
+
+    /**
+     * Promise-обёртка над setTimeout для await-синтаксиса.
+     * @param {number} seconds
+     */
+    function sleep(seconds) {
+      return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
+
+    /**
+     * Перемещает курсор в конец указанного элемента-слова.
+     *
+     * Курсор физически один в DOM, но логически "принадлежит"
+     * последнему напечатанному слову. Для этого переносим его
+     * в нужный .typewriter__word через appendChild.
+     *
+     * appendChild перемещает существующий узел — клонирование не нужно.
+     * Курсор автоматически исчезает из предыдущего места.
+     *
+     * @param {HTMLElement} wordEl — элемент слова, куда переносим курсор
+     */
+    function moveCursorTo(wordEl) {
+      wordEl.appendChild(cursorEl);
+    }
+
+    /**
+     * Печатает одно слово посимвольно в указанный элемент.
+     *
+     * Каждый символ — отдельный <span> внутри .typewriter__word.
+     * Пробел → &nbsp; чтобы браузер не "съел" пробелы в конце.
+     *
+     * @param {HTMLElement} wordEl — элемент слова
+     * @param {string}      word   — строка для печати
+     */
+    async function typeWord(wordEl, word) {
+      for (const char of word) {
+        const span = document.createElement('span');
+        span.innerHTML = char === ' ' ? '&nbsp;' : char;
+        // Вставляем символ перед курсором чтобы курсор всегда был в конце
+        wordEl.insertBefore(span, cursorEl);
+        await sleep(getTypeDelay());
+      }
+    }
+
+    /**
+     * Удаляет все символы из указанного элемента-слова (справа налево).
+     *
+     * Выбираем только span-символы (не курсор) через селектор span:not(.typewriter__cursor).
+     * Реверсируем массив — удаление идёт с последнего символа.
+     *
+     * @param {HTMLElement} wordEl — элемент слова
+     */
+    async function deleteWord(wordEl) {
+      const spans = Array.from(
+        wordEl.querySelectorAll('span:not(.typewriter__cursor)')
+      ).reverse();
+
+      for (const span of spans) {
+        span.remove();
+        await sleep(DELETE_SPEED);
+      }
+    }
+
+    /**
+     * Печатает целую фразу: перебирает строки и слова по порядку.
+     *
+     * Перед каждым словом курсор переезжает в его контейнер —
+     * визуально курсор "следует" за набором.
+     *
+     * @param {string[][][]} phrase — трёхмерный массив [линии[слова]]
+     */
+    async function typePhrase(phrase) {
+      cursorTween.pause();
+      gsap.set(cursorEl, { opacity: 1 });
+
+      for (const line of phrase) {
+        for (const word of line) {
+          const wordEl = wordMap.get(word);
+          if (!wordEl) continue;
+
+          // Курсор переезжает в текущее слово перед его набором
+          moveCursorTo(wordEl);
+          await typeWord(wordEl, word);
+        }
+      }
+
+      cursorTween.resume();
+    }
+
+    /**
+     * Удаляет целую фразу: перебирает слова в обратном порядке.
+     *
+     * flat() разворачивает [линии[слова]] → плоский массив слов.
+     * reverse() — удаление идёт от последнего слова к первому.
+     *
+     * Перед удалением каждого слова курсор переезжает в него —
+     * курсор "отступает" вместе с удалением.
+     *
+     * @param {string[][][]} phrase
+     */
+    async function deletePhrase(phrase) {
+      cursorTween.pause();
+      gsap.set(cursorEl, { opacity: 1 });
+
+      // flat() разворачивает вложенные массивы строк и слов
+      const allWords = phrase.flat().reverse();
+
+      for (const word of allWords) {
+        const wordEl = wordMap.get(word);
+        if (!wordEl) continue;
+
+        moveCursorTo(wordEl);
+        await deleteWord(wordEl);
+      }
+
+      cursorTween.resume();
+    }
+
+    /**
+     * Обновляет data-word у всех .typewriter__word и пересобирает wordMap.
+     *
+     * Нужно при смене фразы: HTML-структура (строки/слова) остаётся той же,
+     * но слова меняются. Обновляем атрибуты и переключаем CSS-стили.
+     *
+     * Порядок обхода: сначала все слова первой линии, потом второй и т.д.
+     * — совпадает с порядком в PHRASES[phraseIndex].
+     *
+     * @param {string[][][]} phrase — новая фраза
+     */
+    function applyPhraseToDOM(phrase) {
+      // Плоский список новых слов в порядке обхода
+      const newWords = phrase.flat();
+
+      // Все существующие .typewriter__word в порядке DOM
+      const wordEls = Array.from(document.querySelectorAll('.typewriter__word'));
+
+      wordEls.forEach((el, i) => {
+        const newWord = newWords[i];
+        if (!newWord) return;
+
+        // Меняем data-word → CSS [data-word="..."] автоматически подхватит новые стили
+        el.dataset.word = newWord;
+      });
+
+      // Пересобираем Map с актуальными ключами
+      wordMap.clear();
+      document.querySelectorAll('.typewriter__word').forEach(el => {
+        wordMap.set(el.dataset.word, el);
+      });
+    }
+
+    // ─── Основной цикл ─────────────────────────────────────────────────────────
+
+    /**
+     * Бесконечный цикл смены фраз.
+     *
+     * Порядок для каждой фразы:
+     * 1. applyPhraseToDOM — обновляем data-word (CSS-стили переключаются)
+     * 2. typePhrase       — посимвольный набор всех слов
+     * 3. sleep            — пауза чтения
+     * 4. deletePhrase     — посимвольное удаление в обратном порядке
+     * 5. sleep            — пауза перед следующей фразой
+     */
+    async function runLoop() {
+      let index = 0;
+
+      while (true) {
+        const phrase = PHRASES[index % PHRASES.length];
+
+        applyPhraseToDOM(phrase);
+        await typePhrase(phrase);
+        await sleep(PAUSE_AFTER_TYPE);
+        await deletePhrase(phrase);
+        await sleep(PAUSE_AFTER_DELETE);
+
+        index++;
+      }
+    }
+
+    runLoop();
+
+  })();
+
+
+
+
+  // Регистрируем плагин, без этого ScrollTrigger просто не будет работать
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Оборачиваем всё в функцию которая запустится когда страница загрузится
+  window.addEventListener("load", function () {
+
+    // Шарик стартует на cx=30 и должен доехать до cx=570
+    // считаем путь который он проедет
+    var startX = 30;
+    var endX = 570;
+    var distance = endX - startX; // 540px
+
+    // Создаём общий таймлайн для всей анимации
+    // once: true это самое важное здесь, означает что триггер сработает только один раз
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#my-svg",       // следим именно за этим элементом
+        start: "top 80%",         // когда верх SVG доходит до 80% высоты экрана
+        once: true,               // срабатывает один раз и всё, больше не повторяется
+        // markers: true,         // можно раскомментировать чтобы видеть маркеры при отладке
+      }
+    });
+
+    // Первый прямоугольник растягиваем по ширине
+    // scaleX меняет именно горизонтальный масштаб, то есть фигура как бы вытягивается вправо
+    // но тут есть нюанс: масштабирование идёт от центра элемента по умолчанию
+    // поэтому задаём transformOrigin чтобы растяжка шла от левого края
+    tl.from("#rect1", {
+      scaleX: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      transformOrigin: "left center",
+    });
+
+    // Второй прямоугольник делаем с небольшой задержкой через позицию "-=0.5"
+    // это значит что анимация второго прямоугольника начнётся на 0.5 секунды раньше
+    // чем закончится первая, они немного перекрываются и выглядит плавнее
+    tl.from("#rect2", {
+      scaleX: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      transformOrigin: "left center",
+    }, "-=0.5");
+
+    // Теперь шарик. Он будет катиться слева направо
+    // rotation здесь это реальное вращение шарика вокруг своей оси
+    // а x это горизонтальное смещение
+    // считаем угол поворота по формуле: путь делим на радиус
+    // шарик проходит 300px, радиус 20px, значит поворот = 300 / 20 * (180 / Math.PI) градусов
+    // var ballPath = 300;
+    // var ballRadius = 20;
+    // var rotationDeg = (ballPath / ballRadius) * (180 / Math.PI);
+
+    // tl.from("#ball", {
+    //   x: -300,
+    //   rotation: -rotationDeg,   // минус потому что катится в правую сторону, так правильнее
+    //   duration: 1.2,
+    //   ease: "power1.inOut",
+    // }, "-=0.4");
+
+    // Шарик едет по прямой от левого края до правого
+    // x это смещение относительно начальной позиции (cx=30)
+    // rotation крутит шарик вокруг своей оси
+    // важно: transformOrigin ставим в центр шарика чтобы он крутился на месте
+    // а не вокруг угла SVG
+    tl.to("#ball", {
+      x: distance,
+      duration: 1.4,
+      ease: "power1.inOut",
+    }, 0);
+
+
+  });
+
+
+
+
+
+
+  (function () {
+    var stick = document.getElementById("stick-img");
+    var stickWrapper = document.querySelector(".img-wrapper-2");
+    var container = document.querySelector(".advan");
+
+    var maxAngle = 22;
+
+    gsap.set(stick, {
+      rotation: 27,
+      transformOrigin: "bottom center",
+    });
+
+    // Флаг что курсор внутри контейнера
+    var isInside = false;
+
+    container.addEventListener("mouseenter", function () {
+      isInside = true;
+    });
+
+    container.addEventListener("mouseleave", function () {
+      isInside = false;
+      gsap.to(stick, {
+        rotation: 27,
+        duration: 1,
+        ease: "elastic.out(1, 0.3)",
+        transformOrigin: "bottom center",
+      });
+    });
+
+    document.addEventListener("mousemove", function (e) {
+      if (!isInside) return;
+
+      // Берём rect от wrapper а не от img, потому что img крутится
+      // и её bottom постоянно смещается. wrapper стоит на месте.
+      var wrapperRect = stickWrapper.getBoundingClientRect();
+
+      // Якорь это нижний центр wrapper
+      var anchorX = wrapperRect.left + wrapperRect.width / 2;
+      var anchorY = wrapperRect.bottom;
+
+      var dx = e.clientX - anchorX;
+      var dy = e.clientY - anchorY;
+
+      var distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Берём размер контейнера как радиус притяжения
+      var containerRect = container.getBoundingClientRect();
+      var magnetRadius = Math.max(containerRect.width, containerRect.height);
+
+      var influence = 1 - Math.min(distance / magnetRadius, 1);
+
+      var angleRad = Math.atan2(dx, -dy);
+      var angleDeg = angleRad * (180 / Math.PI);
+
+      var clampedAngle = Math.max(-maxAngle, Math.min(maxAngle, angleDeg));
+
+      var finalAngle = 27 + clampedAngle * influence;
+
+      gsap.to(stick, {
+        rotation: finalAngle,
+        duration: 0.4,
+        ease: "power2.out",
+        transformOrigin: "bottom center",
+      });
+    });
+  })();
+
+
+
+
+  // (function () {
+
+  //   // ─── Конфиг ────────────────────────────────────────────────────────────────
+
+  //   /**
+  //    * Список фраз, которые будут печататься по очереди.
+  //    * Можно добавить сколько угодно строк.
+  //    */
+  //   const PHRASES = [
+  //     'за! уровень в цифре',
+  //     'следующая фраза здесь',
+  //     'и ещё одна строка',
+  //   ];
+
+  //   /**
+  //    * Скорость печати одного символа (секунды).
+  //    * Небольшой разброс делает анимацию живее — см. getTypeDelay().
+  //    */
+  //   const TYPE_SPEED = 0.07;  // базовая задержка между символами
+  //   const TYPE_VARIANCE = 0.04;  // ±случайный разброс (имитация живого набора)
+
+  //   /**
+  //    * Скорость удаления одного символа (секунды).
+  //    * Удаление быстрее набора — стандартная практика typewriter-эффектов.
+  //    */
+  //   const DELETE_SPEED = 0.04;
+
+  //   /**
+  //    * Паузы (секунды):
+  //    * - PAUSE_AFTER_TYPE   — сколько ждать после полного набора фразы
+  //    * - PAUSE_AFTER_DELETE — сколько ждать после полного удаления (перед новой фразой)
+  //    */
+  //   const PAUSE_AFTER_TYPE = 2.0;
+  //   const PAUSE_AFTER_DELETE = 0.5;
+
+  //   // ─── DOM ───────────────────────────────────────────────────────────────────
+
+  //   const textEl = document.querySelector('.typewriter__text');
+  //   const cursorEl = document.querySelector('.typewriter__cursor');
+
+  //   // ─── Курсор: мигание ───────────────────────────────────────────────────────
+
+  //   /**
+  //    * Бесконечное мигание курсора через GSAP.
+  //    *
+  //    * repeat: -1  — бесконечно
+  //    * yoyo: true  — opacity 1→0→1→0...
+  //    *
+  //    * ease: 'none' — линейное мигание (без плавности),
+  //    * имитирует прямоугольный курсор терминала.
+  //    *
+  //    * Почему не CSS animation:
+  //    * GSAP позволяет паузить/возобновлять мигание синхронно
+  //    * с остальной анимацией (например, остановить во время печати).
+  //    */
+  //   const cursorTween = gsap.to(cursorEl, {
+  //     opacity: 0,
+  //     duration: 0.5,
+  //     repeat: -1,
+  //     yoyo: true,
+  //     ease: 'none',
+  //   });
+
+  //   // ─── Вспомогательные функции ───────────────────────────────────────────────
+
+  //   /**
+  //    * Возвращает случайную задержку вокруг TYPE_SPEED.
+  //    * Делает набор "живым" — символы появляются неравномерно,
+  //    * как при реальном наборе на клавиатуре.
+  //    *
+  //    * @returns {number} задержка в секундах
+  //    */
+  //   function getTypeDelay() {
+  //     return TYPE_SPEED + (Math.random() * 2 - 1) * TYPE_VARIANCE;
+  //   }
+
+  //   /**
+  //    * Promise-обёртка над setTimeout.
+  //    * Позволяет писать await sleep(1) вместо вложенных колбэков.
+  //    *
+  //    * Почему не gsap.delayedCall:
+  //    * async/await делает цепочку типа "напечатать → подождать → удалить"
+  //    * значительно читаемее линейного кода без колбэков.
+  //    *
+  //    * @param {number} seconds
+  //    * @returns {Promise<void>}
+  //    */
+  //   function sleep(seconds) {
+  //     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+  //   }
+
+  //   /**
+  //    * Печатает строку посимвольно в textEl.
+  //    *
+  //    * Каждый символ добавляется отдельным <span> —
+  //    * это позволяет в будущем анимировать каждую букву отдельно
+  //    * (fade, scale и т.д.), не ломая уже набранный текст.
+  //    *
+  //    * Курсор останавливается во время набора — мигание отвлекает
+  //    * от самого эффекта печати. Возобновляется после.
+  //    *
+  //    * @param {string} text — строка для печати
+  //    */
+  //   async function typeText(text) {
+  //     // Останавливаем мигание во время набора — курсор статичен
+  //     cursorTween.pause();
+  //     gsap.set(cursorEl, { opacity: 1 });
+
+  //     for (const char of text) {
+  //       // Создаём span на каждый символ
+  //       const span = document.createElement('span');
+
+  //       /*
+  //        * Пробел заменяем на &nbsp; — обычный пробел в конце строки
+  //        * браузер может "съесть" при рендере (white-space collapsing).
+  //        * innerHTML вместо textContent для корректной вставки &nbsp;
+  //        */
+  //       span.innerHTML = char === ' ' ? '&nbsp;' : char;
+
+  //       textEl.appendChild(span);
+
+  //       // Задержка между символами с живым разбросом
+  //       await sleep(getTypeDelay());
+  //     }
+
+  //     // Возобновляем мигание когда фраза напечатана
+  //     cursorTween.resume();
+  //   }
+
+  //   /**
+  //    * Удаляет символы из textEl по одному справа налево.
+  //    *
+  //    * querySelectorAll возвращает NodeList в порядке DOM —
+  //    * реверсируем через Array.from + reverse для удаления с конца.
+  //    *
+  //    * @returns {Promise<void>}
+  //    */
+  //   async function deleteText() {
+  //     // Останавливаем мигание на время удаления
+  //     cursorTween.pause();
+  //     gsap.set(cursorEl, { opacity: 1 });
+
+  //     // Собираем все span-символы и разворачиваем массив
+  //     const spans = Array.from(textEl.querySelectorAll('span')).reverse();
+
+  //     for (const span of spans) {
+  //       span.remove();
+  //       await sleep(DELETE_SPEED);
+  //     }
+
+  //     // Возобновляем мигание после полного удаления
+  //     cursorTween.resume();
+  //   }
+
+  //   // ─── Основной цикл ─────────────────────────────────────────────────────────
+
+  //   /**
+  //    * Бесконечный цикл: печатает фразы из PHRASES по кругу.
+  //    *
+  //    * Порядок для каждой фразы:
+  //    * 1. typeText   — посимвольный набор
+  //    * 2. sleep      — пауза после полного набора
+  //    * 3. deleteText — посимвольное удаление
+  //    * 4. sleep      — короткая пауза перед следующей фразой
+  //    *
+  //    * phraseIndex % PHRASES.length — зацикливает массив фраз бесконечно.
+  //    *
+  //    * Первая фраза не удаляется сразу — пользователь успевает прочитать.
+  //    */
+  //   async function runLoop() {
+  //     let phraseIndex = 0;
+
+  //     while (true) {
+  //       const phrase = PHRASES[phraseIndex % PHRASES.length];
+
+  //       await typeText(phrase);
+  //       await sleep(PAUSE_AFTER_TYPE);
+  //       await deleteText();
+  //       await sleep(PAUSE_AFTER_DELETE);
+
+  //       phraseIndex++;
+  //     }
+  //   }
+
+  //   // Запускаем цикл
+  //   runLoop();
+
+  // })();
+
+  // === iOS-safe ScrollTrigger refresh handler ===
   (function () {
     let resizeTimer;
     let lastWidth = window.innerWidth;

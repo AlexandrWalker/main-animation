@@ -76,4 +76,38 @@
 
     &-text {}
   }
+
+  &__wrap {
+    position: relative;
+
+    @include md {
+      display: none;
+    }
+
+    .img-wrapper {
+      width: auto;
+      object-fit: contain;
+
+      &-1 {
+        height: 77rem;
+      }
+
+      &-2 {
+        height: 76rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        // Фиксируем точку вращения визуально снизу
+        // но это только для браузера, gsap всё равно получает свой transformOrigin
+        transform-origin: bottom center;
+      }
+    }
+
+    img {
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+  }
 }
