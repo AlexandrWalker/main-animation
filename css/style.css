@@ -2000,6 +2000,39 @@ p {
   line-height: 120%;
 }
 
+.advan__wrap {
+  position: relative;
+}
+
+.advan__wrap .img-wrapper {
+  width: auto;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.advan__wrap .img-wrapper-1 {
+  height: 77rem;
+}
+
+.advan__wrap .img-wrapper-2 {
+  height: 76rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  -webkit-transform-origin: bottom center;
+  -ms-transform-origin: bottom center;
+  transform-origin: bottom center;
+}
+
+.advan__wrap img {
+  display: block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 .category__slider {
   position: relative;
 }
@@ -2277,6 +2310,72 @@ p {
   height: auto;
   -o-object-fit: contain;
   object-fit: contain;
+}
+
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.typewriter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.typewriter__line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 0.25em;
+  line-height: 1.2;
+}
+
+.typewriter__line:last-child .typewriter__word {
+  font-size: 12rem;
+}
+
+.typewriter__line:last-child .typewriter__cursor {
+  font-size: 12rem;
+}
+
+.typewriter__word {
+  font-weight: 1000;
+  font-size: 24rem;
+  line-height: 100%;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  color: #17171A;
+  display: inline-block;
+}
+
+.typewriter__cursor {
+  font-size: 24rem;
+  line-height: 100%;
+  will-change: opacity;
+}
+
+/* ─── Стилизация конкретных слов через data-word ─────────────────────────── */
+
+/* Пример: меняем цвет конкретных слов */
+
+[data-word=уровень] {
+  color: #DC143C;
+}
+
+[data-word=фраза] {
+  color: #2a9d8f;
+}
+
+[data-word=одна] {
+  color: #e9c46a;
 }
 
 .reviews {
@@ -2720,6 +2819,10 @@ p {
     right: calc(var(--swiper-button-size) / 2 * -1);
   }
 
+  .advan__wrap {
+    display: none;
+  }
+
   .category__item {
     -webkit-box-shadow: 0 0 5px 5px rgba(113, 133, 149, 0.1);
     box-shadow: 0 0 5px 5px rgba(113, 133, 149, 0.1);
@@ -2750,6 +2853,22 @@ p {
 
   .gallery__item-3 {
     margin-top: 0;
+  }
+
+  .typewriter__line:last-child .typewriter__word {
+    font-size: 2.4rem;
+  }
+
+  .typewriter__line:last-child .typewriter__cursor {
+    font-size: 2.4rem;
+  }
+
+  .typewriter__word {
+    font-size: 3.2rem;
+  }
+
+  .typewriter__cursor {
+    font-size: 3.2rem;
   }
 
   .reviews__item-name {
