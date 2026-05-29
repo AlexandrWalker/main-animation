@@ -3,11 +3,22 @@
 .hero {
   min-height: 100vh;
   min-height: 100dvh;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
 }
 
 .typewriter {
   display: flex;
   flex-direction: column;
+  min-height: 60rem;
+
+  @include sm {
+    min-height: unset;
+  }
 }
 
 .typewriter__line {

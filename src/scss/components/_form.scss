@@ -2,6 +2,27 @@
 
 .form {
 
+  &__head {
+    font-size: 3rem;
+    line-height: 120%;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__foot {
+    display: none;
+  }
+
   &-group {
     position: relative;
 
@@ -33,6 +54,10 @@
       &+.form-label {
         opacity: 0;
       }
+    }
+
+    &::placeholder {
+      opacity: 0;
     }
   }
 

@@ -1,0 +1,92 @@
+@use './../mixins' as *;
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 5rem 14.5rem;
+  background-color: var(--bg);
+  max-width: 85rem;
+  width: 100%;
+
+  display: none;
+
+  @include md {
+    gap: 3rem;
+    padding: 9rem 2rem;
+    max-width: 39.3rem;
+  }
+
+  .form {
+    padding: 0;
+    gap: 3rem;
+    color: var(--black);
+
+    @include md {
+      gap: 2rem;
+    }
+
+    &__head {
+      padding: 0;
+    }
+
+    &__foot {
+
+      @include md {
+        gap: 1rem;
+      }
+    }
+
+    &-input {
+      color: var(--black);
+      
+      &::placeholder {
+        color: var(--sizyy-50);
+      }
+    }
+
+    &-label {
+      color: var(--gray-50);
+
+      &::before {
+        background-color: var(--gray);
+      }
+
+      &::after {
+        background-color: var(--black);
+      }
+    }
+
+    &-btn {
+      --btn-color: var(--black);
+      --btn-border-color: var(--black);
+
+      max-width: 27rem;
+
+      @include md {
+        max-width: 100%;
+      }
+
+      &:hover {
+        --btn-color: var(--white);
+
+        max-width: 100%;
+        background-color: var(--black);
+      }
+    }
+  }
+}
+
+.f-button.is-close-button {
+  width: 3.4rem;
+  height: 3.4rem;
+  top: 4rem;
+  right: 4rem;
+  color: var(--black);
+  background: transparent;
+
+  @include md {
+    top: 2.4rem;
+    right: 2.2rem;
+  }
+}

@@ -36,7 +36,7 @@
       left: 0;
       height: 100%;
       background: #2563eb;
-      border-radius: 8px;
+      border-radius: 0.8rem;
       pointer-events: none;
       opacity: 0;
       width: 0;
@@ -57,11 +57,6 @@
 
     .swiper-slide {
       z-index: 3;
-
-      // &.is-virtual-active .category__item,
-      // &-active .category__item {
-      //   color: var(--white);
-      // }
     }
   }
 

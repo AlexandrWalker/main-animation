@@ -15,8 +15,6 @@
     min-height: 70rem;
   }
 
-  &__body {}
-
   &__items {
     position: relative;
     max-width: 33.5rem;
@@ -40,34 +38,34 @@
     &:hover {
 
       .card-4 {
-        transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 
         &:hover {
-          transform: translate(-30px, -60px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+          transform: translate(-3rem, -6rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
         }
       }
 
       .card-3 {
-        transform: translate(-90px, -20px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        transform: translate(-9rem, -2rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 
         &:hover {
-          transform: translate(-90px, -50px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+          transform: translate(-9rem, -5rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
         }
       }
 
       .card-2 {
-        transform: translate(-120px, -10px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        transform: translate(-12rem, -11rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 
         &:hover {
-          transform: translate(-120px, -40px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+          transform: translate(-12rem, -4rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
         }
       }
 
       .card-1 {
-        transform: translate(-30px, 0px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+        transform: translate(-3rem, 0rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 
         &:hover {
-          transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+          transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
         }
       }
     }
