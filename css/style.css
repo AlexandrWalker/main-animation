@@ -89,7 +89,7 @@ img {
   -ms-flex-pack: center;
   justify-content: center;
   color: white;
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: bold;
   -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -153,6 +153,14 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
   src: url("../fonts/Montserrat-ExtraBold.woff2") format("woff2"), url("../fonts/Montserrat-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
@@ -163,14 +171,6 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-ExtraLight.woff2") format("woff2"), url("../fonts/Montserrat-ExtraLight.woff") format("woff");
   font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
-  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
-  font-weight: 700;
   font-style: normal;
 }
 
@@ -634,6 +634,37 @@ body {
   color: var(--white);
 }
 
+.form__head {
+  font-size: 3rem;
+  line-height: 120%;
+}
+
+.form__inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form__foot {
+  display: none;
+}
+
 .form-group {
   position: relative;
 }
@@ -658,6 +689,26 @@ body {
 .form-input:focus + .form-label,
 .form-input:active + .form-label,
 .form-input:checked + .form-label {
+  opacity: 0;
+}
+
+.form-input::-webkit-input-placeholder {
+  opacity: 0;
+}
+
+.form-input::-moz-placeholder {
+  opacity: 0;
+}
+
+.form-input:-ms-input-placeholder {
+  opacity: 0;
+}
+
+.form-input::-ms-input-placeholder {
+  opacity: 0;
+}
+
+.form-input::placeholder {
   opacity: 0;
 }
 
@@ -1004,6 +1055,89 @@ p {
 
 .header-theme-dark .logo a {
   color: var(--white);
+}
+
+.popup {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 5rem 14.5rem;
+  background-color: var(--bg);
+  max-width: 85rem;
+  width: 100%;
+  display: none;
+}
+
+.popup .form {
+  padding: 0;
+  gap: 3rem;
+  color: var(--black);
+}
+
+.popup .form__head {
+  padding: 0;
+}
+
+.popup .form-input {
+  color: var(--black);
+}
+
+.popup .form-input::-webkit-input-placeholder {
+  color: var(--sizyy-50);
+}
+
+.popup .form-input::-moz-placeholder {
+  color: var(--sizyy-50);
+}
+
+.popup .form-input:-ms-input-placeholder {
+  color: var(--sizyy-50);
+}
+
+.popup .form-input::-ms-input-placeholder {
+  color: var(--sizyy-50);
+}
+
+.popup .form-input::placeholder {
+  color: var(--sizyy-50);
+}
+
+.popup .form-label {
+  color: var(--gray-50);
+}
+
+.popup .form-label::before {
+  background-color: var(--gray);
+}
+
+.popup .form-label::after {
+  background-color: var(--black);
+}
+
+.popup .form-btn {
+  --btn-color: var(--black);
+  --btn-border-color: var(--black);
+  max-width: 27rem;
+}
+
+.popup .form-btn:hover {
+  --btn-color: var(--white);
+  max-width: 100%;
+  background-color: var(--black);
+}
+
+.f-button.is-close-button {
+  width: 3.4rem;
+  height: 3.4rem;
+  top: 4rem;
+  right: 4rem;
+  color: var(--black);
+  background: transparent;
 }
 
 .product__inner {
@@ -1911,6 +2045,39 @@ p {
   background-color: var(--black);
 }
 
+.image-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  width: 50rem;
+  height: 64rem;
+  -webkit-perspective: 50rem;
+  perspective: 50rem;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+#spin-image {
+  width: 50rem;
+  height: 64rem;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+  outline: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 /* Elements */
 
 /* Pages */
@@ -2043,7 +2210,7 @@ p {
   left: 0;
   height: 100%;
   background: #2563eb;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   pointer-events: none;
   opacity: 0;
   width: 0;
@@ -2175,51 +2342,51 @@ p {
 }
 
 .certificate__items:hover .card-4 {
-  -webkit-transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-30px, -30px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-3rem, -3rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-4:hover {
-  -webkit-transform: translate(-30px, -60px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-30px, -60px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-30px, -60px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-3rem, -6rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-3rem, -6rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-3rem, -6rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-3 {
-  -webkit-transform: translate(-90px, -20px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-90px, -20px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-90px, -20px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-9rem, -2rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-9rem, -2rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-9rem, -2rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-3:hover {
-  -webkit-transform: translate(-90px, -50px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-90px, -50px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-90px, -50px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-9rem, -5rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-9rem, -5rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-9rem, -5rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-2 {
-  -webkit-transform: translate(-120px, -10px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-120px, -10px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-120px, -10px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-12rem, -11rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-12rem, -11rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-12rem, -11rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-2:hover {
-  -webkit-transform: translate(-120px, -40px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-120px, -40px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-120px, -40px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-12rem, -4rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-12rem, -4rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-12rem, -4rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-1 {
-  -webkit-transform: translate(-30px, 0px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-30px, 0px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-30px, 0px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-3rem, 0rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-3rem, 0rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-3rem, 0rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__items:hover .card-1:hover {
-  -webkit-transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
-  -ms-transform: translate(-30px, -30px) skewX(-10deg) rotate(-10deg) scaleX(0.9);
-  transform: translate(-30px, -30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -webkit-transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+  -ms-transform: translate(-3rem, -3rem) skewX(-10deg) rotate(-10deg) scaleX(0.9);
+  transform: translate(-3rem, -3rem) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
 }
 
 .certificate__item {
@@ -2230,7 +2397,6 @@ p {
   box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
   cursor: pointer;
   border-radius: 3rem;
-  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2317,6 +2483,17 @@ p {
   min-height: 100dvh;
 }
 
+.hero__inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 4rem;
+}
+
 .typewriter {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2325,6 +2502,7 @@ p {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
+  min-height: 60rem;
 }
 
 .typewriter__line {
@@ -2608,6 +2786,29 @@ p {
 
   .header nav {
     display: none;
+  }
+
+  .popup {
+    gap: 3rem;
+    padding: 9rem 2rem;
+    max-width: 39.3rem;
+  }
+
+  .popup .form {
+    gap: 2rem;
+  }
+
+  .popup .form__foot {
+    gap: 1rem;
+  }
+
+  .popup .form-btn {
+    max-width: 100%;
+  }
+
+  .f-button.is-close-button {
+    top: 2.4rem;
+    right: 2.2rem;
   }
 
   .product__content {
@@ -2992,6 +3193,10 @@ p {
     -webkit-transform: scale(0.6);
     -ms-transform: scale(0.6);
     transform: scale(0.6);
+  }
+
+  .typewriter {
+    min-height: unset;
   }
 }
 
