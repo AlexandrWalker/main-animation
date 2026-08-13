@@ -82,4 +82,47 @@
       }
     }
   }
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: backdrop-filter .3s, background-color .3s, -webkit-backdrop-filter .3s;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    // background-color: rgba(0, 0, 0, .14);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    &>svg {
+      visibility: hidden;
+    }
+
+    &-block {
+      z-index: 1 !important;
+      overflow: visible !important;
+      border-radius: inherit !important;
+      box-shadow: none !important;
+    }
+
+    &-mask {
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgb(255, 255, 255) 50%, rgba(255, 255, 255, .1));
+      -webkit-mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+      mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+  }
 }

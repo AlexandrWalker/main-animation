@@ -1399,6 +1399,220 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /**
+   * Функция эффекта наведения кнопки (btn--radial)
+   */
+  (function () {
+    // Функция для обновления координат
+    function updateButtonCoords(button, e) {
+      const rect = button.getBoundingClientRect();
+      const isTouch = e.type.startsWith('touch');
+
+      // Берем координаты либо тача, либо мыши
+      const clientX = isTouch ? (e.touches[0] || e.changedTouches[0]).clientX : e.clientX;
+      const clientY = isTouch ? (e.touches[0] || e.changedTouches[0]).clientY : e.clientY;
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      button.style.setProperty('--x', `${x}px`);
+      button.style.setProperty('--y', `${y}px`);
+    }
+
+    // 1. ДЛЯ ДЕСКТОПОВ (Мышь)
+    document.addEventListener('mousemove', (e) => {
+      const button = e.target.closest('.btn--radial');
+      if (button) {
+        updateButtonCoords(button, e);
+        button.classList.add('btn-active'); // Активируем плавное расширение
+      }
+    });
+
+    // Когда мышь уходит с кнопки
+    document.addEventListener('mouseout', (e) => {
+      const button = e.target.closest('.btn--radial');
+      // Проверяем, что мы действительно покинули кнопку, а не перешли на текст внутри нее
+      if (button && !button.contains(e.relatedTarget)) {
+        button.classList.remove('btn-active'); // Кнопка плавно сжимается
+      }
+    });
+
+    // 2. ДЛЯ СМАРТФОНОВ (Тач-скрины: iPhone, iPad)
+    document.addEventListener('touchstart', (e) => {
+      const button = e.target.closest('.btn--radial');
+      if (button) {
+        updateButtonCoords(button, e);
+        button.classList.add('btn-active');
+      } else {
+        // Если тапнули в любое другое место экрана — убираем заливку со ВСЕХ активных кнопок
+        document.querySelectorAll('.btn--radial.btn-active').forEach(b => {
+          b.classList.remove('btn-active');
+        });
+      }
+    }, { passive: true });
+
+    // Дополнительно для мобильных: если палец потянули (скролл), тоже плавно убираем заливку
+    document.addEventListener('touchmove', () => {
+      document.querySelectorAll('.btn--radial.btn-active').forEach(b => {
+        b.classList.remove('btn-active');
+      });
+    }, { passive: true });
+  })();
+
+  /**
+   * Функция эффекта наведения кнопки (btn--magnetic)
+   */
+  (function () {
+    // Коэффициент "силы притяжения"
+    const MAGNETIC_STRENGTH = 0.2;
+
+    // Универсальная функция для расчета и применения координат
+    function handleMagneticMove(button, clientX, clientY) {
+      const icon = button.querySelector('.btn-icon');
+      if (!icon) return;
+
+      // 1. Получаем координаты центра самой иконки
+      const iconRect = icon.getBoundingClientRect();
+      const iconCenterX = iconRect.left + iconRect.width / 2;
+      const iconCenterY = iconRect.top + iconRect.height / 2;
+
+      // 2. Считаем расстояние от курсора/тача до центра иконки
+      const deltaX = clientX - iconCenterX;
+      const deltaY = clientY - iconCenterY;
+
+      // 3. Ограничиваем движение коэффициентом
+      const moveX = deltaX * MAGNETIC_STRENGTH;
+      const moveY = deltaY * MAGNETIC_STRENGTH;
+
+      // 4. Записываем в CSS-переменные конкретной кнопки
+      button.classList.add('is-magnetic-active');
+      icon.style.setProperty('--icon-x', `${moveX}px`);
+      icon.style.setProperty('--icon-y', `${moveY}px`);
+    }
+
+    // Функция плавного сброса для конкретной кнопки
+    function resetMagneticButton(button) {
+      button.classList.remove('is-magnetic-active');
+      const icon = button.querySelector('.btn-icon');
+      if (icon) {
+        icon.style.setProperty('--icon-x', `0px`);
+        icon.style.setProperty('--icon-y', `0px`);
+      }
+    }
+
+
+    // --- 1. ДЛЯ ДЕСКТОПОВ (Мышь, включая Mac Safari) ---
+
+    document.addEventListener('mousemove', (e) => {
+      const button = e.target.closest('.btn--magnetic');
+      if (button) {
+        handleMagneticMove(button, e.clientX, e.clientY);
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      const button = e.target.closest('.btn--magnetic');
+      // Проверяем, что курсор реально вышел за пределы кнопки, а не перешел на текст внутри нее
+      if (button && !button.contains(e.relatedTarget)) {
+        resetMagneticButton(button);
+      }
+    });
+
+
+    // --- 2. ДЛЯ СМАРТФОНОВ И ПЛАНШЕТОВ (Тач-скрины iOS Safari) ---
+
+    document.addEventListener('touchstart', (e) => {
+      const button = e.target.closest('.btn--magnetic');
+      if (button) {
+        const touch = e.touches[0];
+        handleMagneticMove(button, touch.clientX, touch.clientY);
+      } else {
+        // Железобетонный сброс для Safari: если тапнули мимо, гасим все активные кнопки
+        document.querySelectorAll('.btn--magnetic.is-magnetic-active').forEach(resetMagneticButton);
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      const button = e.target.closest('.btn--magnetic');
+      if (button) {
+        const touch = e.touches[0];
+        handleMagneticMove(button, touch.clientX, touch.clientY);
+      }
+    }, { passive: true });
+
+    // Если палец убрали с экрана — плавно возвращаем иконку назад
+    document.addEventListener('touchend', () => {
+      document.querySelectorAll('.btn--magnetic.is-magnetic-active').forEach(resetMagneticButton);
+    });
+  })();
+
+
+  /**
+   * Функция эффекта наведения кнопки (btn--border)
+   */
+  (function () {
+    // Функция расчета координат внутри конкретной кнопки
+    function updateBorderCoords(button, e) {
+      const rect = button.getBoundingClientRect();
+      const isTouch = e.type.startsWith('touch');
+
+      const clientX = isTouch ? (e.touches || e.changedTouches)[0].clientX : e.clientX;
+      const clientY = isTouch ? (e.touches || e.changedTouches)[0].clientY : e.clientY;
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      button.style.setProperty('--x', `${x}px`);
+      button.style.setProperty('--y', `${y}px`);
+    }
+
+    // --- 1. ДЛЯ ДЕСКТОПОВ (Мышь) ---
+
+    document.addEventListener('mousemove', (e) => {
+      const button = e.target.closest('.btn--border');
+      if (!button) return;
+
+      // Координаты обновляем только если кнопка еще НЕ активна (в момент входа курсора)
+      if (!button.classList.contains('btn--border-active')) {
+        updateBorderCoords(button, e);
+      }
+      button.classList.add('btn--border-active');
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      const button = e.target.closest('.btn--border');
+
+      // Проверяем, что курсор покинул именно кнопку, а не перешел на текст/иконку внутри нее
+      if (button && !button.contains(e.relatedTarget)) {
+        button.classList.remove('btn--border-active');
+      }
+    });
+
+
+    // --- 2. ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (Кроссбраузерный фикс для iOS / Android Safari) ---
+
+    document.addEventListener('touchstart', (e) => {
+      const button = e.target.closest('.btn--border');
+      if (button) {
+        updateBorderCoords(button, e);
+        button.classList.add('btn--border-active');
+      } else {
+        // ЖЕЛЕЗОБЕТОННАЯ ОЧИСТКА: если тапнули в любое другое место экрана, 
+        // гарантированно снимаем класс со ВСЕХ активных кнопок на странице
+        document.querySelectorAll('.btn--border.btn--border-active').forEach(b => {
+          b.classList.remove('btn--border-active');
+        });
+      }
+    }, { passive: true });
+
+    // Дополнительно для смартфонов: сбрасываем эффект, если пользователь начал скроллить страницу
+    document.addEventListener('touchmove', () => {
+      document.querySelectorAll('.btn--border.btn--border-active').forEach(b => {
+        b.classList.remove('btn--border-active');
+      });
+    }, { passive: true });
+  })();
+
+  /**
    * Анимация текста
    */
   gsap.utils.toArray('[data-split="title"]').forEach(dataSplitLines => {
@@ -2256,11 +2470,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   (function () {
-    var stick = document.getElementById("stick-img");
-    var stickWrapper = document.querySelector(".img-wrapper-2");
-    var container = document.querySelector(".advan");
+    const container = document.querySelector(".advan");
 
-    var maxAngle = 22;
+    if (!container) return;
+
+    const stick = container.getElementById("stick-img");
+    const stickWrapper = container.querySelector(".img-wrapper-2");
+
+    const maxAngle = 22;
 
     gsap.set(stick, {
       rotation: 27,
@@ -2268,7 +2485,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Флаг что курсор внутри контейнера
-    var isInside = false;
+    const isInside = false;
 
     container.addEventListener("mouseenter", function () {
       isInside = true;

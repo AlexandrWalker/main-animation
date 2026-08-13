@@ -7,6 +7,7 @@
   --btn-padding-x: 2rem;
   --btn-color: var(--black);
   --btn-background: var(--white);
+  --btn-hover-background: var(--black);
   --btn-border-radius: calc(var(--btn-height) / 2);
 
   display: flex;
@@ -20,7 +21,7 @@
   padding: 0 var(--btn-padding-x);
   border-radius: var(--btn-border-radius);
   background-color: var(--btn-background);
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 
   font-family: var(--font-family);
   font-weight: 700;
@@ -31,6 +32,7 @@
   white-space: nowrap;
 
   position: relative;
+  z-index: 1;
 
   @include md {
     --btn-height: 4rem;
@@ -41,35 +43,151 @@
     pointer-events: none;
   }
 
-  &:hover {
+  &:not(.btn--radial):hover {
 
     @include dosm {
       --btn-color: var(--white);
-      --btn-background: var(--black);
+      --btn-background: var(--btn-hover-background);
+    }
+  }
+
+  &-text {
+    pointer-events: none;
+
+    position: relative;
+    z-index: 2;
+  }
+
+  &-icon {
+    display: inline-block;
+    transform: translate(var(--icon-x, 0px), var(--icon-y, 0px));
+    will-change: transform;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
+    will-change: filter;
+    pointer-events: none;
+
+    position: relative;
+    z-index: 2;
+  }
+
+  &--radial {
+    --btn-hover-background: var(--black);
+    --btn-radial-background: var(--btn-hover-background);
+
+    overflow: hidden;
+    isolation: isolate;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
+    &.btn-active {
+      --btn-color: var(--white);
+
+      &::before {
+        width: 250%;
+        height: 250%;
+      }
+    }
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+      background: var(--btn-radial-background);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      will-change: width, height;
+      transition: width 0.3s ease-in-out, height 0.3s ease-in-out, left 0s, top 0s;
+
+      position: absolute;
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      z-index: 1;
+    }
+  }
+
+  &--magnetic {
+
+    &.is-magnetic-active {
+
+      .btn-icon {
+        transition: transform 0.1s linear;
+      }
+    }
+  }
+
+  &--border {
+    --btn-width: 20rem;
+    --btn-height: 5rem;
+    --btn-background: transparent;
+    --btn-hover-background: transparent;
+
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--btn-border-radius);
+    border: 0.1rem solid var(--gray);
+
+    position: relative;
+
+    &:hover {
+
+      @include dosm {
+        --btn-color: var(--black) !important;
+        border-color: var(--red);
+      }
+    }
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+      background: transparent;
+      border: 1px solid var(--red);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      will-change: width, height, left, top, border-radius;
+      transition:
+        width 0s,
+        height 0s,
+        left 0s,
+        top 0s,
+        border-radius 0s;
+
+      position: absolute;
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      z-index: 1;
+    }
+
+    &.btn--border-active {
+
+      &::before {
+        width: var(--btn-width);
+        height: var(--btn-width);
+        transition:
+          width 0.4s ease-out,
+          height 0.4s ease-out,
+          left 0.4s ease-out,
+          top 0.4s ease-out,
+          border-radius 0.4s ease-out;
+
+        left: 50%;
+        top: 50%;
+      }
     }
   }
 
   &--orange {
     --btn-color: var(--white);
     --btn-background: var(--orange);
-
-    // box-shadow: 0px 10px 19.4px rgba(255, 100, 33, 0.31);
-
-    &:hover {
-
-      @include dosm {
-        --btn-background: var(--black);
-      }
-    }
+    --btn-hover-background: #ff834d;
   }
 
   &--blue {
     --btn-color: var(--white);
     --btn-background: var(--blue);
-
-    &:hover {
-      --btn-background: var(--second-black);
-    }
+    --btn-hover-background: #67d7ff;
   }
 
   &--gray {
@@ -80,6 +198,7 @@
   &--arrow {
     --btn-height: 4rem;
     --btn-color: var(--blue);
+
     border-radius: 5rem;
     gap: 1.5rem;
     padding: 0 0.9rem 0 2rem;
@@ -90,6 +209,44 @@
 
       background-color: var(--blue);
       color: var(--white);
+    }
+  }
+
+  &--icon {
+    --btn-height: 5rem;
+    --btn-padding-x: 0;
+    --btn-background: #356BEF;
+    --btn-hover-background: #356BEF;
+
+    max-width: var(--btn-height);
+
+    // background: radial-gradient(39.27% 39.27% at 50% 50%, rgba(228, 233, 255, 0.5) 0%, rgba(80, 97, 255, 0.5) 100%);
+    box-shadow: inset 0px 0px 11.4px rgba(2, 10, 81, 0.41);
+    backdrop-filter: blur(6.35px);
+
+    &--telegram {
+      --btn-background: #02AEFF;
+      --btn-hover-background: #02AEFF;
+
+      .btn-icon {
+        margin-right: 0.3rem;
+      }
+    }
+
+    &:hover {
+
+      .btn-icon {
+
+        @include dosm {
+          filter: drop-shadow(0 0 8px rgba(252, 252, 252, 0.8));
+        }
+      }
+    }
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
     }
   }
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru" class="buttons-page">
+@@include('blocks/head.html', {"title": "Test"})
+
+<body>
+  <div class="wrapper">
+    <!-- Шапка -->
+    @@include('./blocks/header.html')
+    <main class="main">
+
+      <section class="buttons">
+        <div class="container">
+          <div class="buttons__inner">
+
+            <div class="buttons__btns">
+              <button class="btn btn--radial">
+                <span class="btn-text">
+                  Radial эффект
+                </span>
+              </button>
+
+              <button class="btn btn--orange btn--radial">
+                <span class="btn-text">
+                  Radial эффект
+                </span>
+              </button>
+
+              <button class="btn btn--border">
+                <span class="btn-text">
+                  Radial эффект
+                </span>
+              </button>
+
+              <script>
+
+              </script>
+            </div>
+
+            <div class="buttons__social">
+              <button class="btn btn--icon btn--magnetic">
+                <div class="btn-icon">
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M11.2364 21.9372C9.07734 21.9372 8.074 21.6207 6.32997 20.3545C5.22682 21.7789 1.73352 22.8922 1.58118 20.9876C1.58118 19.5578 1.26599 18.3496 0.908783 17.0306C0.483284 15.4056 0 13.596 0 10.9739C0 4.71138 5.11651 0 11.1786 0C17.2459 0 21.9999 4.94352 21.9999 11.0319C22.0203 17.0262 17.2046 21.9052 11.2364 21.9372ZM11.3257 5.41308C8.37342 5.26008 6.07257 7.31241 5.56302 10.5307C5.14277 13.195 5.88871 16.4397 6.52433 16.6086C6.82901 16.6824 7.59596 16.0599 8.074 15.5798C8.86444 16.1282 9.78491 16.4576 10.7426 16.5347C13.8016 16.6825 16.4154 14.3435 16.6208 11.2746C16.7403 8.1992 14.3851 5.59435 11.3257 5.41836L11.3257 5.41308Z"
+                      fill="#ffffff" />
+                  </svg>
+                </div>
+              </button>
+              <button class="btn btn--icon btn--icon--telegram btn--magnetic">
+                <div class="btn-icon">
+                  <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M0.286966 7.44248C2.23071 6.35382 4.40047 5.44523 6.42778 4.53198C9.91554 3.03616 13.4172 1.56626 16.9541 0.197798C17.6423 -0.035374 18.8788 -0.263404 19 0.773543C18.9336 2.24133 18.6605 3.70052 18.4732 5.15971C17.9977 8.36861 17.4482 11.5665 16.9123 14.7649C16.7276 15.8302 15.4151 16.3817 14.5753 15.6999C12.557 14.3137 10.5231 12.941 8.53061 11.5227C7.87791 10.8483 8.48315 9.87994 9.06608 9.39838C10.7284 7.73264 12.4914 6.3174 14.0668 4.56558C14.4918 3.52208 13.2361 4.40152 12.822 4.67097C10.5462 6.26556 8.32616 7.9575 5.92681 9.35893C4.70122 10.0449 3.27277 9.45868 2.04774 9.07588C0.949338 8.61348 -0.660111 8.14756 0.286966 7.44248Z"
+                      fill="#ffffff" />
+                  </svg>
+                </div>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- Попапы -->
+    @@include('blocks/popup.html')
+    <!-- Подвал -->
+    @@include('blocks/footer.html')

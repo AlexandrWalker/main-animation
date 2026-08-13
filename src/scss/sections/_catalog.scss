@@ -1,0 +1,31 @@
+@use './../mixins' as *;
+
+.catalog {
+  display: none;
+
+  &__inner {}
+
+  &__bg {
+
+    &-video {}
+  }
+
+  &__body {}
+
+  &__content {}
+
+  &__wrap {}
+
+  &__wrapper {}
+
+  &__unit {}
+
+  &__block {
+
+    &-wrap {}
+
+    &-text {}
+
+    &-btn {}
+  }
+}

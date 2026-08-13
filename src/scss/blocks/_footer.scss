@@ -7,6 +7,10 @@
   background-color: var(--yellow);
   z-index: 2;
 
+  .buttons-page & {
+    display: none;
+  }
+
   &__inner {
     display: flex;
     justify-content: center;
