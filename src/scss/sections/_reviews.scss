@@ -4,10 +4,20 @@
   --photo-size: 6rem;
   --head-gap: 2rem;
 
+  @include sm {
+    --photo-size: 4rem;
+    --head-gap: 1rem;
+  }
+
   &__items {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+
+    @include sm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
   }
 
   &__item {
@@ -37,6 +47,7 @@
       height: var(--photo-size);
       border-radius: 50%;
       overflow: hidden;
+      flex-shrink: 0;
 
       img {
         width: 100%;

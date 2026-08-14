@@ -132,3 +132,7 @@ img {
     transform-style: preserve-3d;
   }
 }
+
+.anim-items:not(.anim-animated) .anim-item {
+  opacity: 0;
+}

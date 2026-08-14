@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru" class="page__inner">
+@@include('blocks/head.html', {"title": "Motorist"})
+
+<body>
+  <div class="wrapper">
+    <!-- Шапка -->
+    @@include('./blocks/header.html')
+    <main class="main">
+
+      <section class="template">
+        <div class="container">
+          <div class="template__inner">
+
+            <div class="general__head">
+              <div class="general__title">
+                <h1>
+                  Анимации
+                </h1>
+              </div>
+              <a class="general__link" href="/main-animation">
+                <h6>
+                  Назад
+                </h6>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title">
+                  <h2>Анимация 1</h2>
+                </div>
+              </div>
+              <div class="reviews__items anim-items" data-anim="slide-up">
+                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title">
+                  <h2>Анимация 2</h2>
+                </div>
+              </div>
+              <div class="reviews__items anim-items" data-anim="zoom">
+                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title">
+                  <h2>Анимация 3</h2>
+                </div>
+              </div>
+              <div class="reviews__items anim-items" data-anim="chess">
+                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title">
+                  <h2>Анимация 4</h2>
+                </div>
+              </div>
+              <div class="reviews__items anim-items" data-anim="out-of-center">
+                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- Подвал -->
+    @@include('blocks/footer.html')

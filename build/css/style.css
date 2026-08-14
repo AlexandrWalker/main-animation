@@ -134,6 +134,10 @@ img {
   transform-style: preserve-3d;
 }
 
+.anim-items:not(.anim-animated) .anim-item {
+  opacity: 0;
+}
+
 .container {
   max-width: calc(var(--container-width) + var(--container-padding) * 2);
   width: 100%;
@@ -166,14 +170,6 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
-  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
   src: url("../fonts/Montserrat-ExtraLight.woff2") format("woff2"), url("../fonts/Montserrat-ExtraLight.woff") format("woff");
   font-weight: 200;
   font-style: normal;
@@ -198,14 +194,6 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
-  src: url("../fonts/Montserrat-Regular.woff2") format("woff2"), url("../fonts/Montserrat-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
   src: url("../fonts/Montserrat-SemiBold.woff2") format("woff2"), url("../fonts/Montserrat-SemiBold.woff") format("woff");
   font-weight: 600;
   font-style: normal;
@@ -216,6 +204,22 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-Thin.woff2") format("woff2"), url("../fonts/Montserrat-Thin.woff") format("woff");
   font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
+  src: url("../fonts/Montserrat-Regular.woff2") format("woff2"), url("../fonts/Montserrat-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -1914,8 +1918,6 @@ p {
 
 .template {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
 }
 
 .template-2 {
@@ -2977,6 +2979,8 @@ p {
   height: var(--photo-size);
   border-radius: 50%;
   overflow: hidden;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .reviews__item-photo img {
@@ -3579,6 +3583,17 @@ p {
 
   .typewriter {
     min-height: unset;
+  }
+
+  .reviews {
+    --photo-size: 4rem;
+    --head-gap: 1rem;
+  }
+
+  .reviews__items {
+    -ms-grid-columns: 1fr 1rem 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
