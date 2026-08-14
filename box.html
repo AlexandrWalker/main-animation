@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="page__inner box">
+<html lang="ru" class="buttons-page">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -12,7 +12,7 @@
   <meta name="format-detection" content="address=no">
   <meta name="format-detection" content="email=no">
   <!-- title -->
-  <title>Motorist</title>
+  <title>Test</title>
   <!-- icons -->
   <link rel="stylesheet" href="icons/style.css">
   <!-- styles -->
@@ -34,10 +34,16 @@
       </div>
 
       <nav>
-        <a href="/main-animation/reviews.html">
-          Страница отзывов
+        <a href="/sliders.html">
+          Слайдеры
         </a>
-        <a href="/main-animation/box.html">
+        <a href="/buttons.html">
+          Кнопки
+        </a>
+        <a href="/anim.html">
+          Анимации
+        </a>
+        <a href="/box.html">
           Страница BOX
         </a>
       </nav>
@@ -89,6 +95,119 @@
       </section>
 
     </main>
+    <!-- Попапы -->
+    <div class="popup" id="popup-1">
+  <form class="form" action="">
+    <div class="form__inner">
+      <div class="form__head">
+        Оставьте заявку <br>
+        и мы перезвоним вам!
+      </div>
+      <div class="form__content">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input class="form-input" id="popup_name" name="popup_name" type="text" placeholder="Введите имя">
+            <label class="form-label" for="popup_name">
+              <div>
+                Ваше имя <span>*</span>
+              </div>
+            </label>
+            <span>
+              Данное поле заполнено неверно
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input class="form-input invalid" id="popup_tel" name="popup_tel" type="tel"
+              placeholder="Введите номер телефона">
+            <label class="form-label" for="popup_tel">
+              <div>
+                Телефон <span>*</span>
+              </div>
+            </label>
+            <span>
+              Данное поле заполнено неверно
+            </span>
+          </div>
+        </div>
+        <!-- <div class="col-xs-12">
+          <div class="form-group">
+            <input class="form-input" id="popup_mail" name="popup_mail" type="email" placeholder="Введите почту">
+            <label class="form-label" for="popup_mail">
+              <div>
+                Эл. почта <span>*</span>
+              </div>
+            </label>
+            <span>
+              Данное поле заполнено неверно
+            </span>
+          </div>
+        </div> -->
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input class="form-input" id="popup_service" name="popup_mail" type="text" placeholder="Введите услугу">
+            <label class="form-label" for="popup_service">
+              <div>
+                Название услуги
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form__foot">
+      <div class="form__foot-wrap">
+        <button class="form-btn btn">
+          Отправить
+          <i class="icon-chevron-min"></i>
+        </button>
+        <div class="form-errors" data-form-errors="">
+          Не заполнены следующие обязательные поля: Имя<br>
+          Не заполнены следующие обязательные поля: Телефон<br>
+          Не заполнены следующие обязательные поля: Email
+        </div>
+      </div>
+      <div class="form__foot-wrap">
+        <div class="form-group">
+          <div class="form-wrap">
+            <input id="popup_checkbox_policy" class="form-checkbox" type="checkbox">
+            <label for="popup_checkbox_policy" class="form-checkbox-label">
+              <div class="form-checkbox--item"></div>
+              <p>
+                Я согласен на обработку <a href="/Osnova/policy.html" target="_blank">персональных данных</a>
+              </p>
+            </label>
+          </div>
+          <div class="form-errors" data-policy-error="">Необходимо согласие на обработку персональных данных</div>
+        </div>
+        <div class="form-group">
+          <div class="form-wrap">
+            <input id="popup_checkbox_ad" class="form-checkbox" type="checkbox">
+            <label for="popup_checkbox_ad" class="form-checkbox-label">
+              <div class="form-checkbox--item"></div>
+              <p>
+                Я согласен на <a href="/Osnova" target="_blank">рекламные уведомления</a>
+              </p>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-wrap">
+            <div class="form__foot-text">
+              <p>
+                Нажимая на кнопку «Отправить» <a href="/Osnova/policy.html" target="_blank">вы соглашаетесь с Политикой
+                  обработки
+                  персональных
+                  данных</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
     <!-- Подвал -->
     <footer class="footer">
   <div class="container">
