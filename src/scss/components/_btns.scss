@@ -22,7 +22,6 @@
   border-radius: var(--btn-border-radius);
   background-color: var(--btn-background);
   transition: all 0.3s ease;
-
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 1.4rem;
@@ -30,7 +29,6 @@
   text-align: center;
   color: var(--btn-color);
   white-space: nowrap;
-
   position: relative;
   z-index: 1;
 
@@ -43,8 +41,7 @@
     pointer-events: none;
   }
 
-  &:not(.btn--radial):hover {
-
+  &:not(.btn--radial):not(.btn--border):hover {
     @include dosm {
       --btn-color: var(--white);
       --btn-background: var(--btn-hover-background);
@@ -53,7 +50,6 @@
 
   &-text {
     pointer-events: none;
-
     position: relative;
     z-index: 2;
   }
@@ -65,7 +61,6 @@
     transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
     will-change: filter;
     pointer-events: none;
-
     position: relative;
     z-index: 2;
   }
@@ -85,8 +80,8 @@
       --btn-color: var(--white);
 
       &::before {
-        width: 250%;
-        height: 250%;
+        width: 30vmax;
+        height: 30vmax;
       }
     }
 
@@ -98,22 +93,13 @@
       border-radius: 50%;
       transform: translate(-50%, -50%);
       will-change: width, height;
-      transition: width 0.3s ease-in-out, height 0.3s ease-in-out, left 0s, top 0s;
-
+      // transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      // transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1), height 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s linear;
       position: absolute;
       left: var(--x, 50%);
       top: var(--y, 50%);
       z-index: 1;
-    }
-  }
-
-  &--magnetic {
-
-    &.is-magnetic-active {
-
-      .btn-icon {
-        transition: transform 0.1s linear;
-      }
     }
   }
 
@@ -126,16 +112,21 @@
     overflow: hidden;
     isolation: isolate;
     border-radius: var(--btn-border-radius);
-    border: 0.1rem solid var(--gray);
-
+    border: none;
     position: relative;
 
-    &:hover {
-
-      @include dosm {
-        --btn-color: var(--black) !important;
-        border-color: var(--red);
-      }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 0.1rem solid var(--gray);
+      transition-delay: 0s;
+      border-radius: var(--btn-border-radius);
+      z-index: 1;
+      pointer-events: none;
     }
 
     &::before {
@@ -146,34 +137,40 @@
       border: 1px solid var(--red);
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      will-change: width, height, left, top, border-radius;
-      transition:
-        width 0s,
-        height 0s,
-        left 0s,
-        top 0s,
-        border-radius 0s;
+      will-change: width, height;
+
+      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1), height 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 
       position: absolute;
       left: var(--x, 50%);
       top: var(--y, 50%);
-      z-index: 1;
+      z-index: 2;
+    }
+
+    &:hover {
+      @include dosm {
+
+        &::after {
+          transition-delay: 0.2s;
+          border-color: var(--red);
+        }
+      }
     }
 
     &.btn--border-active {
-
       &::before {
-        width: var(--btn-width);
-        height: var(--btn-width);
-        transition:
-          width 0.4s ease-out,
-          height 0.4s ease-out,
-          left 0.4s ease-out,
-          top 0.4s ease-out,
-          border-radius 0.4s ease-out;
+        width: 30vmax;
+        height: 30vmax;
+      }
+    }
+  }
 
-        left: 50%;
-        top: 50%;
+  &--magnetic {
+
+    &.is-magnetic-active {
+
+      .btn-icon {
+        transition: transform 0.1s linear;
       }
     }
   }

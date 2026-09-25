@@ -8,6 +8,7 @@ import newer from 'gulp-newer';
 import browserSync from 'browser-sync';
 import clean from 'gulp-clean';
 import fs from 'fs';
+import zip from 'gulp-zip';
 import gulpIf from 'gulp-if';
 
 //HTML
@@ -16,6 +17,7 @@ import typograf from 'gulp-typograf';
 
 // JS
 import uglify from 'gulp-uglify';
+import include from 'gulp-include';
 
 //SASS
 import * as dartsass from 'sass';
@@ -67,6 +69,39 @@ const plumberNotify = (title) => {
   };
 };
 
+gulp.task('zip:src', function () {
+  return gulp
+    .src([`./**/*.zip`, `!${rootFolder}-build.zip`, `!${rootFolder}-prod.zip`])
+    .pipe(clean({ force: true }))
+
+    .pipe(gulp.src([`./**/*.*`, `!./node_modules/**/*.*`, `!./package-lock.json`, `!./build/**/*.*`, `!./prod/**/*.*`]))
+    .pipe(plumber(plumberNotify('ZIP:src')))
+    .pipe(zip(`${rootFolder}-src.zip`))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('zip:build', function () {
+  return gulp
+    .src([`./**/*.zip`, `!${rootFolder}-src.zip`, `!${rootFolder}-prod.zip`])
+    .pipe(clean({ force: true }))
+
+    .pipe(gulp.src(`${buildFolder}**/*.*`))
+    .pipe(plumber(plumberNotify('ZIP:build')))
+    .pipe(zip(`${rootFolder}.zip`))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('zip:docs', function () {
+  return gulp
+    .src([`./**/*.zip`, `!${rootFolder}-src.zip`, `!${rootFolder}-build.zip`])
+    .pipe(clean({ force: true }))
+
+    .pipe(gulp.src(`${docsFolder}**/*.*`))
+    .pipe(plumber(plumberNotify('ZIP:docs')))
+    .pipe(zip(`${rootFolder}-docs.zip`))
+    .pipe(gulp.dest('./'));
+});
+
 gulp.task('clean', function (done) {
   if (fs.existsSync(`${docsFolder}`)) {
     return gulp.src(`${docsFolder}`, { read: false }).pipe(clean({ force: true }));
@@ -81,7 +116,7 @@ gulp.task('clean', function (done) {
 
 gulp.task('html', function () {
   return gulp
-    .src([`${srcFolder}html/**/*.html`, `!${srcFolder}html/blocks/*.html`, `!${srcFolder}html/elements/*.html`, `!${srcFolder}html/privacy/*.html`])
+    .src([`${srcFolder}html/**/*.html`, `!${srcFolder}html/blocks/*.html`, `!${srcFolder}html/elements/*.html`])
     .pipe(plumber(plumberNotify('HTML')))
     .pipe(
       fileInclude({
@@ -133,8 +168,9 @@ gulp.task('styles', function () {
 
 gulp.task('js', function () {
   return gulp
-    .src(`${srcFolder}js/**/*.js`)
-    .pipe(newer(`${destFolder}js`))
+    .src(`${srcFolder}js/*.js`)
+    .pipe(include())
+    // .pipe(newer(`${destFolder}js`))
     .pipe(gulpIf(isModeP, uglify()))
     .pipe(plumber(plumberNotify('JS')))
     .pipe(gulp.dest(`${destFolder}js/`))
@@ -275,8 +311,9 @@ gulp.task('fontsStyle', () => {
   let fontsFile = `${srcFolder}scss/bases/_fontsAutoGen.scss`;
   // Проверяем существуют ли файлы шрифтов
   fs.readdir(`${buildFolder}fonts/`, function (err, fontsFiles) {
-    // Проверяем существует ли файл стилей для подключения шрифтов
     if (fontsFiles) {
+      // Проверяем существует ли файл стилей для подключения шрифтов
+
       // Если файла нет, создаем его
       fs.writeFile(fontsFile, '', cb);
       let newFileOnly;
@@ -288,13 +325,13 @@ gulp.task('fontsStyle', () => {
           let fontWeight = fontFileName.split('-')[1] ? fontFileName.split('-')[1] : fontFileName;
           if (fontWeight.toLowerCase() === 'thin') {
             fontWeight = 100;
-          } else if (fontWeight.toLowerCase() === 'extralight' || fontWeight.toLowerCase() === 'ultralight') {
+          } else if (fontWeight.toLowerCase() === 'extralight') {
             fontWeight = 200;
           } else if (fontWeight.toLowerCase() === 'light') {
             fontWeight = 300;
           } else if (fontWeight.toLowerCase() === 'medium') {
             fontWeight = 500;
-          } else if (fontWeight.toLowerCase() === 'semibold' || fontWeight.toLowerCase() === 'demibold') {
+          } else if (fontWeight.toLowerCase() === 'semibold') {
             fontWeight = 600;
           } else if (fontWeight.toLowerCase() === 'bold') {
             fontWeight = 700;
@@ -302,8 +339,6 @@ gulp.task('fontsStyle', () => {
             fontWeight = 800;
           } else if (fontWeight.toLowerCase() === 'black') {
             fontWeight = 900;
-          } else if (fontWeight.toLowerCase() === 'ultra') {
-            fontWeight = 1000;
           } else {
             fontWeight = 400;
           }
@@ -336,7 +371,6 @@ gulp.task('server', function () {
     },
     browser: 'google chrome',
     open: false,
-    // online: false,
     notify: false,
     port: 3000,
     ghostMode: {
@@ -364,6 +398,7 @@ gulp.task(
     'clean',
     'fonts',
     gulp.series('cleanSvg', 'svg'),
+    // gulp.parallel('html', 'styles', 'js', 'images', 'files'),
     gulp.series('html', 'styles', 'files', 'js', 'images'),
     gulp.parallel('server', 'watch')
   )
@@ -374,6 +409,13 @@ gulp.task(
     'clean',
     'fonts',
     gulp.series('cleanSvg', 'svg'),
+    // gulp.parallel('html', 'styles', 'js', 'images', 'files')
     gulp.series('html', 'styles', 'files', 'js', 'images')
   )
 );
+
+gulp.task('zipsrc', gulp.parallel('zip:src'));
+
+gulp.task('zipbuild', gulp.parallel('zip:build'));
+
+gulp.task('zipdocs', gulp.series('zip:docs'));
