@@ -55,8 +55,9 @@ body {
 
 section {
   padding: var(--section-padding-top) 0 var(--section-padding-bottom);
-  overflow-x: hidden;
-  overflow-y: visible;
+  // overflow-x: hidden;
+  // overflow-y: visible;
+  overflow: clip;
   will-change: transform;
   background-color: var(--bg);
 }

@@ -1,0 +1,53 @@
+@use './../mixins' as *;
+
+// [data-accent] {
+//   position: relative;
+//   display: inline-block;
+//   width: fit-content;
+//   overflow: hidden;
+
+//   h1,
+//   h2,
+//   h3,
+//   h4,
+//   h5,
+//   h6,
+//   span {
+//     position: relative;
+//     z-index: 2;
+//   }
+
+//   &::after {
+//     content: "";
+//     position: absolute;
+//     bottom: 0;
+//     left: 50%;
+//     width: 100%;
+//     height: 0.4rem;
+//     background-color: var(--blue, #58A6FF);
+//     z-index: 1;
+
+//     // Исходное состояние: если JS еще не считал высоту, полоса стоит в центре
+//     opacity: var(--accent-opacity, 1);
+//     transform: translateX(calc(-50% + var(--accent-x, 0rem)));
+//     will-change: transform, opacity;
+//   }
+// }
+
+[data-accent] .line {
+  display: inline;
+  width: fit-content;
+  padding-bottom: 0.2rem;
+  background-image: linear-gradient(0deg,
+      transparent 0.1rem,
+      currentColor 0,
+      currentColor 0.4rem,
+      transparent 0,
+      transparent 100%);
+  background-size: var(--accent-size, 0%) 100%;
+  background-position: var(--accent-pos, left);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  will-change: background-size, background-position;
+}

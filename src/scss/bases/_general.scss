@@ -3,7 +3,7 @@
 .general {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
   padding: var(--section-padding-top) 0 var(--section-padding-bottom);
 
   &__head {
@@ -11,6 +11,9 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem 2rem;
+
+    position: relative;
+    z-index: 2;
   }
 
   &__body {
@@ -23,7 +26,9 @@
 
   &__wrap {}
 
-  &__title {}
+  &__title {
+    color: var(--blue);
+  }
 
   &__text {}
 
@@ -49,4 +54,16 @@
   }
 
   &__control {}
+
+  &__object {
+    display: block;
+    width: 20rem;
+    height: 1rem;
+    background-color: var(--yellow);
+
+    position: absolute;
+    top: 75%;
+    left: 0;
+    z-index: 1;
+  }
 }

@@ -5,8 +5,8 @@
   --btn-width: fit-content;
   --btn-height: 5rem;
   --btn-padding-x: 2rem;
-  --btn-color: var(--black);
-  --btn-background: var(--white);
+  --btn-color: var(--white);
+  --btn-background: var(--gray);
   --btn-hover-background: var(--black);
   --btn-border-radius: calc(var(--btn-height) / 2);
 
@@ -41,7 +41,9 @@
     pointer-events: none;
   }
 
-  &:not(.btn--radial):not(.btn--border):hover {
+  &:not(.btn--radial):not(.btn--border):hover,
+  .banner__item:hover & {
+
     @include dosm {
       --btn-color: var(--white);
       --btn-background: var(--btn-hover-background);

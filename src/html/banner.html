@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru" class="page__inner">
+@@include('blocks/head.html', {"title": "Sandbox"})
+
+<body>
+  <div class="wrapper">
+    <!-- Шапка -->
+    @@include('./blocks/header.html')
+    <main class="main">
+
+      <section class="template">
+        <div class="container">
+          <div class="template__inner">
+
+            <div class="general__head">
+              <div class="general__title">
+                <h1>
+                  Баннеры
+                </h1>
+              </div>
+              <a class="general__link" href="/main-animation">
+                <h6>
+                  Назад
+                </h6>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="banner">
+        <div class="container">
+          <div class="banner__inner">
+
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title" data-accent>
+                  <h2>Анимация 1</h2>
+                </div>
+              </div>
+
+              <div class="banner__items anim-items" data-anim="rows-up">
+                <a class="banner__item banner__item--big anim-item" href="javascript:void(0)">
+                  <div class="banner__item-head">
+                    <div class="banner__item-title">
+                      Заголовок
+                    </div>
+                    <div class="banner__item-text">
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    </div>
+                  </div>
+                  <div class="banner__item-body">
+
+                  </div>
+                  <div class="banner__item-foot">
+                    <div class="banner__item-btn btn">
+                      Подробнее
+                    </div>
+                  </div>
+                </a>
+                <a class="banner__item banner__item--mid anim-item" href="javascript:void(0)">
+                  <div class="banner__item-head">
+                    <div class="banner__item-title">
+                      Заголовок
+                    </div>
+                    <div class="banner__item-text">
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    </div>
+                  </div>
+                  <div class="banner__item-body">
+
+                  </div>
+                  <div class="banner__item-foot">
+                    <div class="banner__item-btn btn">
+                      Подробнее
+                    </div>
+                  </div>
+
+                  <div class="banner__item-object" data-parallax>
+
+                  </div>
+
+                </a>
+                <a class="banner__item banner__item--small anim-item" href="javascript:void(0)">
+                  <div class="banner__item-head">
+                    <div class="banner__item-title">
+                      Заголовок
+                    </div>
+                    <div class="banner__item-text">
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    </div>
+                  </div>
+                  <div class="banner__item-body">
+
+                  </div>
+                  <div class="banner__item-foot">
+                    <div class="banner__item-btn btn">
+                      Подробнее
+                    </div>
+                  </div>
+                </a>
+                <a class="banner__item banner__item--small anim-item" href="javascript:void(0)">
+                  <div class="banner__item-head">
+                    <div class="banner__item-title">
+                      Заголовок
+                    </div>
+                    <div class="banner__item-text">
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    </div>
+                  </div>
+                  <div class="banner__item-body">
+                  </div>
+                  <div class="banner__item-foot">
+                    <div class="banner__item-btn btn">
+                      Подробнее
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="general__object" data-parallax data-parallax-y="30">
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <div class="container">
+          <div class="reviews__inner">
+            <div class="general">
+              <div class="general__head">
+                <div class="general__title" data-split="title" data-accent>
+                  <h2>Заголовок на&nbsp;две <br> строки</h2>
+                </div>
+              </div>
+              <div class="reviews__items anim-items" data-anim="zoom">
+                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- Подвал -->
+    @@include('blocks/footer.html')

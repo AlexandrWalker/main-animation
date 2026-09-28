@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" class="page__inner">
-@@include('blocks/head.html', {"title": "Motorist"})
+@@include('blocks/head.html', {"title": "Sandbox"})
 
 <body>
   <div class="wrapper">
@@ -34,7 +34,7 @@
           <div class="reviews__inner">
             <div class="general">
               <div class="general__head">
-                <div class="general__title" data-split="title">
+                <div class="general__title" data-split="title" data-accent>
                   <h2>Анимация 1</h2>
                 </div>
               </div>
@@ -51,8 +51,8 @@
           <div class="reviews__inner">
             <div class="general">
               <div class="general__head">
-                <div class="general__title" data-split="title">
-                  <h2>Анимация 2</h2>
+                <div class="general__title" data-split="title" data-accent>
+                  <h2>Заголовок на&nbsp;две <br> строки</h2>
                 </div>
               </div>
               <div class="reviews__items anim-items" data-anim="zoom">
@@ -68,28 +68,11 @@
           <div class="reviews__inner">
             <div class="general">
               <div class="general__head">
-                <div class="general__title" data-split="title">
+                <div class="general__title" data-split="title" data-accent>
                   <h2>Анимация 3</h2>
                 </div>
               </div>
-              <div class="reviews__items anim-items" data-anim="chess">
-                @@loop('./elements/reviews-item.html', './data/reviews-items.json')
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="reviews">
-        <div class="container">
-          <div class="reviews__inner">
-            <div class="general">
-              <div class="general__head">
-                <div class="general__title" data-split="title">
-                  <h2>Анимация 4</h2>
-                </div>
-              </div>
-              <div class="reviews__items anim-items" data-anim="out-of-center">
+              <div class="reviews__items anim-items" data-anim="rows-up">
                 @@loop('./elements/reviews-item.html', './data/reviews-items.json')
               </div>
             </div>
