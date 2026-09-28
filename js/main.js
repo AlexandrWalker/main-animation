@@ -1564,27 +1564,121 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Анимация текста
    */
+  // gsap.utils.toArray('[data-split="title"]').forEach(dataSplitLines => {
+  //   const textSplits = dataSplitLines.querySelectorAll('*');
+  //   textSplits.forEach(textSplit => {
+  //     if (textSplit) SplitText.create(textSplit, {
+  //       type: "words,lines",
+  //       mask: "lines",
+  //       linesClass: "line",
+  //       autoSplit: true,
+  //       onSplit: inst => gsap.from(inst.lines, {
+  //         y: 50,
+  //         rotation: 2.5,
+  //         opacity: 0,
+  //         stagger: 0.1,
+  //         duration: 0.6,
+  //         ease: 'power3.out',
+  //         scrollTrigger: {
+  //           trigger: dataSplitLines,
+  //           start: "top 90%",
+  //           end: "bottom top"
+  //         }
+  //       })
+  //     });
+  //   });
+  // });
+  
   gsap.utils.toArray('[data-split="title"]').forEach(dataSplitLines => {
     const textSplits = dataSplitLines.querySelectorAll('*');
+  
     textSplits.forEach(textSplit => {
-      if (textSplit) SplitText.create(textSplit, {
+      if (!textSplit) return;
+  
+      SplitText.create(textSplit, {
         type: "words,lines",
         mask: "lines",
         linesClass: "line",
         autoSplit: true,
-        onSplit: inst => gsap.from(inst.lines, {
-          y: 50,
-          rotation: 2.5,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: dataSplitLines,
-            start: "top 90%",
-            end: "bottom top"
+        onSplit: inst => {
+  
+          // 1. АНИМАЦИЯ ПОЯВЛЕНИЯ ТЕКСТА (Срабатывает строго один раз)
+          gsap.from(inst.lines, {
+            y: 50,
+            rotation: 2.5,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: dataSplitLines,
+              start: "top 90%",
+              once: true
+            }
+          });
+  
+          const hasAccent = dataSplitLines.hasAttribute('data-accent') || textSplit.hasAttribute('data-accent');
+  
+          if (hasAccent) {
+            const rect = dataSplitLines.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const absoluteTop = rect.top + scrollTop;
+            const thresholdSpace = window.innerHeight * 0.85;
+  
+            // ИСКЛЮЧЕНИЕ ДЛЯ ПЕРВОГО ЭКРАНА (Полоса горит всегда и уходит вправо при скролле)
+            if (absoluteTop <= thresholdSpace) {
+              gsap.set(inst.lines, {
+                '--accent-size': '100%',
+                '--accent-pos': 'right'
+              });
+  
+              gsap.fromTo(inst.lines,
+                {
+                  '--accent-size': '100%',
+                  '--accent-pos': 'right'
+                },
+                {
+                  scrollTrigger: {
+                    trigger: document.documentElement,
+                    start: 'top top',
+                    end: () => `top+=${rect.top + rect.height / 1.3} top`,
+                    scrub: true
+                  },
+                  '--accent-size': '0%',
+                  ease: 'power1.out'
+                }
+              );
+            } else {
+  
+              // 2. АНИМАЦИЯ ВЫДЕЛЕНИЯ ДЛЯ ОСТАЛЬНЫХ БЛОКОВ (Работает постоянно туда и обратно)
+              gsap.timeline({
+                scrollTrigger: {
+                  trigger: dataSplitLines,
+                  start: "top 90%",
+                  end: "bottom 15%",
+                  scrub: true
+                }
+              })
+                .to(inst.lines, {
+                  '--accent-size': '100%',
+                  '--accent-pos': 'left',
+                  duration: 0.35,
+                  ease: 'power2.out',
+                  stagger: 0.05
+                })
+                .to(inst.lines, {
+                  '--accent-pos': 'right',
+                  duration: 0.01
+                })
+                .to(inst.lines, {
+                  '--accent-size': '0%',
+                  duration: 0.35,
+                  ease: 'power2.in',
+                  stagger: 0.05
+                });
+            }
           }
-        })
+        }
       });
     });
   });
@@ -1725,6 +1819,15 @@ document.addEventListener('DOMContentLoaded', () => {
           };
           break;
   
+        case 'rows-up':
+          animConfig.y = 60;
+          animConfig.stagger = {
+            amount: 0.4,
+            grid: "auto",
+            from: "start"
+          };
+          break;
+  
         // Стандартные варианты из прошлого шага
         case 'slide-up': animConfig.y = 50; break;
         case 'slide-right': animConfig.x = -50; break;
@@ -1742,6 +1845,222 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.from(items, animConfig);
     });
   })();
+  
+  
+  
+  
+  // (function () {
+  //   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  
+  //   const accentBlocks = document.querySelectorAll('[data-accent]');
+  //   if (!accentBlocks.length) return;
+  
+  //   accentBlocks.forEach(block => {
+  //     const rect = block.getBoundingClientRect();
+  //     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  //     const absoluteTop = rect.top + scrollTop;
+  
+  //     const thresholdSpace = window.innerHeight * 0.85;
+  //     const hasEnoughTopSpace = absoluteTop > thresholdSpace;
+  
+  //     if (!hasEnoughTopSpace) {
+  //       gsap.fromTo(block,
+  //         {
+  //           '--accent-opacity': 1,
+  //           '--accent-x': '0rem'
+  //         },
+  //         {
+  //           scrollTrigger: {
+  //             trigger: document.documentElement,
+  //             start: 'top top',
+  //             end: () => `top+=${rect.top + rect.height/1.3} top`,
+  //             scrub: true
+  //           },
+  //           '--accent-opacity': 0,
+  //           '--accent-x': '60vw',
+  //           ease: 'power1.out'
+  //         }
+  //       );
+  //     } else {
+  //       gsap.fromTo(block, 
+  //         {
+  //           '--accent-opacity': 0,
+  //           '--accent-x': '-60vw'
+  //         },
+  //         {
+  //           scrollTrigger: {
+  //             trigger: block,
+  //             start: 'top 90%',
+  //             end: 'bottom 15%',
+  //             scrub: true
+  //           },
+  //           keyframes: [
+  //             {
+  //               '--accent-opacity': 1,
+  //               '--accent-x': '0rem',
+  //               duration: 0.35,
+  //               ease: 'power2.out'
+  //             },
+  //             {
+  //               '--accent-opacity': 1,
+  //               '--accent-x': '0rem',
+  //               duration: 0.35
+  //             },
+  //             {
+  //               '--accent-opacity': 0,
+  //               '--accent-x': '60vw',
+  //               duration: 0.30,
+  //               ease: 'power2.in'
+  //             }
+  //           ]
+  //         }
+  //       );
+  //     }
+  //   });
+  // })();
+  
+  // (function () {
+  //   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  
+  //   const accentBlocks = document.querySelectorAll('[data-accent]');
+  //   if (!accentBlocks.length) return;
+  
+  //   accentBlocks.forEach(block => {
+  //     const rect = block.getBoundingClientRect();
+  //     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  //     const absoluteTop = rect.top + scrollTop;
+  
+  //     const thresholdSpace = window.innerHeight * 0.85;
+  //     const hasEnoughTopSpace = absoluteTop > thresholdSpace;
+  
+  //     if (!hasEnoughTopSpace) {
+  //       gsap.fromTo(block,
+  //         {
+  //           '--accent-size': '100%',
+  //           '--accent-pos': 'right'
+  //         },
+  //         {
+  //           scrollTrigger: {
+  //             trigger: document.documentElement,
+  //             start: 'top top',
+  //             end: () => `top+=${rect.top + rect.height / 1.3} top`,
+  //             scrub: true
+  //           },
+  //           '--accent-size': '0%',
+  //           ease: 'power1.out'
+  //         }
+  //       );
+  //     } else {
+  //       gsap.fromTo(block,
+  //         {
+  //           '--accent-size': '0%',
+  //           '--accent-pos': 'left'
+  //         },
+  //         {
+  //           scrollTrigger: {
+  //             trigger: block,
+  //             start: 'top 90%',
+  //             end: 'bottom 15%',
+  //             scrub: true
+  //           },
+  //           keyframes: [
+  //             {
+  //               '--accent-size': '100%',
+  //               '--accent-pos': 'left',
+  //               duration: 0.35,
+  //               ease: 'power2.out'
+  //             },
+  //             {
+  //               '--accent-size': '100%',
+  //               '--accent-pos': 'right',
+  //               duration: 0.35
+  //             },
+  //             {
+  //               '--accent-size': '0%',
+  //               '--accent-pos': 'right',
+  //               duration: 0.30,
+  //               ease: 'power2.in'
+  //             }
+  //           ]
+  //         }
+  //       );
+  //     }
+  //   });
+  // })();
+  
+  // (function () {
+  //   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  
+  //   const parallaxItems = document.querySelectorAll('[data-parallax]');
+  //   if (!parallaxItems.length) return;
+  
+  //   parallaxItems.forEach(item => {
+  //     const speedAttr = item.getAttribute('data-parallax-y');
+  //     const speed = speedAttr ? parseFloat(speedAttr) : 50;
+  
+  //     const triggerElement = item.parentElement || item;
+  
+  //     gsap.set(item, {
+  //       force3D: true,
+  //       transformPerspective: 1000,
+  //       backfaceVisibility: 'hidden',
+  //       xPercent: item.style.transform.includes('translate(-50%') ? -50 : 0
+  //     });
+  
+  //     gsap.fromTo(item,
+  //       {
+  //         yPercent: speed
+  //       },
+  //       {
+  //         yPercent: -speed,
+  //         ease: "none",
+  //         scrollTrigger: {
+  //           trigger: triggerElement,
+  //           start: "top bottom",
+  //           end: "bottom top",
+  //           scrub: true
+  //         }
+  //       }
+  //     );
+  //   });
+  // })();
+  
+  (function () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  
+    const parallaxItems = document.querySelectorAll('[data-parallax]');
+    if (!parallaxItems.length) return;
+  
+    parallaxItems.forEach(item => {
+      const speedAttr = item.getAttribute('data-parallax-y');
+      const speed = speedAttr ? parseFloat(speedAttr) : 180;
+  
+      gsap.set(item, { 
+        force3D: true,
+        transformPerspective: 1000,
+        backfaceVisibility: 'hidden'
+      });
+  
+      gsap.fromTo(item,
+        { 
+          y: speed 
+        },
+        {
+          y: -speed,
+          ease: "none",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 95%",
+            end: "bottom 5%",
+            scrub: true
+          }
+        }
+      );
+    });
+  })();
+  
+  
+  
   
   /**
    * Функция для шапки
