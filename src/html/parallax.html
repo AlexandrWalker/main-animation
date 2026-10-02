@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru" class="page__inner">
+@@include('blocks/head.html', {"title": "Sandbox"})
+
+<body>
+  <div class="wrapper">
+    <!-- Шапка -->
+    @@include('./blocks/header.html')
+    <main class="main">
+
+      <section class="template">
+        <div class="container">
+          <div class="template__inner">
+
+            <div class="general__head">
+              <div class="general__title">
+                <h1>
+                  Параллакс
+                </h1>
+              </div>
+              <a class="general__link" href="/main-animation">
+                <h6>
+                  Назад
+                </h6>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="parallax">
+
+        <div class="parallax__bg"></div>
+
+        <div class="container">
+          <div class="parallax__inner">
+
+            <div class="parallax__items">
+              <div class="parallax__item" data-speed="120">
+                <h3>Айтем 1</h3>
+                <p>Движется медленнее вверх</p>
+              </div>
+
+              <div class="parallax__item" data-speed="120">
+                <h3>Айтем 2</h3>
+                <p>Движется быстрее вверх</p>
+              </div>
+
+              <div class="parallax__item" data-speed="120">
+                <h3>Айтем 3</h3>
+                <p>Движется вниз</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- Подвал -->
+    @@include('blocks/footer.html')

@@ -2032,15 +2032,15 @@ gsap.utils.toArray('[data-anim="gallery"]').forEach(dataAnimItem => {
     const speedAttr = item.getAttribute('data-parallax-y');
     const speed = speedAttr ? parseFloat(speedAttr) : 180;
 
-    gsap.set(item, { 
+    gsap.set(item, {
       force3D: true,
       transformPerspective: 1000,
       backfaceVisibility: 'hidden'
     });
 
     gsap.fromTo(item,
-      { 
-        y: speed 
+      {
+        y: speed
       },
       {
         y: -speed,
@@ -2054,6 +2054,41 @@ gsap.utils.toArray('[data-anim="gallery"]').forEach(dataAnimItem => {
       }
     );
   });
+})();
+
+
+// параллакс
+(function () {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".parallax",
+      start: "top top",       // Фиксируем, когда секция заняла весь экран
+      end: "+=150%",          // Время фиксации (длина скролла)
+      scrub: 1,               // Плавный доводчик (отлично работает с Lenis)
+      pin: true,              // Фиксируем секцию
+      anticipatePin: 1
+    }
+  });
+
+  gsap.set(".parallax__item", {
+    y: "100vh",
+    opacity: 0
+  });
+
+  tl.to(".parallax__bg", {
+    y: "-30vh",
+    ease: "none"
+  }, 0);
+
+  tl.to(".parallax__item", {
+    opacity: 1,
+    y: 0,
+    stagger: 0.35,
+    ease: "power2.out"
+  }, 0);
+
 })();
 
 
