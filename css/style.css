@@ -178,6 +178,14 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
   src: url("../fonts/Montserrat-ExtraBold.woff2") format("woff2"), url("../fonts/Montserrat-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
@@ -196,14 +204,6 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-Light.woff2") format("woff2"), url("../fonts/Montserrat-Light.woff") format("woff");
   font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
-  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
-  font-weight: 700;
   font-style: normal;
 }
 
@@ -1298,14 +1298,21 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
   gap: 1rem 3rem;
+}
+
+.header nav::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .header nav a {
   font-size: 2rem;
   line-height: 120%;
+  white-space: nowrap;
   position: relative;
 }
 
@@ -3835,7 +3842,7 @@ canvas {
   }
 
   .header nav {
-    display: none;
+    overflow-x: auto;
   }
 
   .popup {
@@ -4161,6 +4168,14 @@ canvas {
 
   :root {
     --container-padding: 1rem;
+  }
+
+  .header nav a {
+    font-size: 1.6rem;
+  }
+
+  .header__contacts {
+    display: none;
   }
 
   .product__body {
