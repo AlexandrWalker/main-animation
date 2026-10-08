@@ -6182,13 +6182,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tl.to('.page-transition-overlay', {
 
-          scaleX: 1,
+          scaleY: 1,
 
           duration: 0.5,
 
           ease: 'power4.inOut',
 
-          transformOrigin: 'left center'
+          transformOrigin: 'bottom center'
 
         });
 
@@ -6220,13 +6220,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tl.to('.page-transition-overlay', {
 
-          scaleX: 0,
+          scaleY: 0,
 
           duration: 0.5,
 
           ease: 'power4.inOut',
 
-          transformOrigin: 'right center'
+          transformOrigin: 'top center'
 
         });
 
@@ -6236,7 +6236,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           opacity: 0,
 
-          x: 20,
+          y: 20,
 
           duration: 0.4,
 

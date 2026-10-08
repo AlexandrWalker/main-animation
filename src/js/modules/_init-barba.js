@@ -14,10 +14,10 @@ barba.init({
       const tl = gsap.timeline({ onComplete: done });
 
       tl.to('.page-transition-overlay', {
-        scaleX: 1,
+        scaleY: 1,
         duration: 0.5,
         ease: 'power4.inOut',
-        transformOrigin: 'left center'
+        transformOrigin: 'bottom center'
       });
 
       tl.to(data.current.container, {
@@ -33,15 +33,15 @@ barba.init({
       window.scrollTo(0, 0);
 
       tl.to('.page-transition-overlay', {
-        scaleX: 0,
+        scaleY: 0,
         duration: 0.5,
         ease: 'power4.inOut',
-        transformOrigin: 'right center'
+        transformOrigin: 'top center'
       });
 
       tl.from(data.next.container, {
         opacity: 0,
-        x: 20,
+        y: 20,
         duration: 0.4,
         ease: 'power2.out'
       }, '-=0.3');
