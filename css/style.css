@@ -137,6 +137,23 @@ img {
   opacity: 0;
 }
 
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--blue);
+  z-index: 9999;
+  -webkit-transform: scaleY(0);
+      -ms-transform: scaleY(0);
+          transform: scaleY(0);
+  -webkit-transform-origin: bottom center;
+      -ms-transform-origin: bottom center;
+          transform-origin: bottom center;
+  pointer-events: none;
+}
+
 .container {
   max-width: calc(var(--container-width) + var(--container-padding) * 2);
   width: 100%;
@@ -161,14 +178,6 @@ img {
 @font-face {
   font-family: Montserrat;
   font-display: swap;
-  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Montserrat;
-  font-display: swap;
   src: url("../fonts/Montserrat-ExtraBold.woff2") format("woff2"), url("../fonts/Montserrat-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
@@ -187,6 +196,14 @@ img {
   font-display: swap;
   src: url("../fonts/Montserrat-Light.woff2") format("woff2"), url("../fonts/Montserrat-Light.woff") format("woff");
   font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2"), url("../fonts/Montserrat-Bold.woff") format("woff");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -642,13 +659,12 @@ body {
   -webkit-transform: translate(var(--icon-x, 0px), var(--icon-y, 0px));
       -ms-transform: translate(var(--icon-x, 0px), var(--icon-y, 0px));
           transform: translate(var(--icon-x, 0px), var(--icon-y, 0px));
-  will-change: transform;
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), -webkit-filter 0.3s ease;
   transition: -webkit-transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), -webkit-filter 0.3s ease;
   -o-transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease, -webkit-transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), -webkit-filter 0.3s ease;
-  will-change: filter;
+  will-change: transform, filter;
   pointer-events: none;
   position: relative;
   z-index: 2;
@@ -808,10 +824,86 @@ body {
 }
 
 .btn--icon svg {
-  width: 2rem;
-  height: 2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   -ms-flex-negative: 0;
       flex-shrink: 0;
+}
+
+.clip-slider {
+  position: relative;
+  overflow: visible;
+  -ms-touch-action: pan-y;
+      touch-action: pan-y;
+}
+
+.clip-slider .swiper-wrapper {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+  -webkit-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+  -webkit-transform: none !important;
+      -ms-transform: none !important;
+          transform: none !important;
+}
+
+.clip-slider .swiper-slide {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-clip-path: inset(0 0 0 100%);
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 0.5s ease, -webkit-clip-path 0.5s ease;
+}
+
+.clip-slider .swiper-slide.s--prev {
+  z-index: 1;
+  -webkit-clip-path: inset(0 100% 0 0);
+  clip-path: inset(0 100% 0 0);
+}
+
+.clip-slider .swiper-slide.s--active {
+  z-index: 2;
+  -webkit-clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
+}
+
+.clip-slider .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  -o-transition: transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.clip-slider .clip-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.clip-slider .swiper-slide-active img {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
 
 [data-accent] .line {
@@ -1211,12 +1303,29 @@ p {
   gap: 1rem 3rem;
 }
 
-.header-theme-dark .header nav a {
-  color: var(--white);
+.header nav a {
+  font-size: 2rem;
+  line-height: 120%;
+  position: relative;
 }
 
-.header nav a:hover {
-  color: var(--blue);
+.header nav a::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0.2rem;
+  background-color: var(--blue);
+  -webkit-transition: width 0.3s linear;
+  -o-transition: width 0.3s linear;
+  transition: width 0.3s linear;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.header-theme-dark .header nav a {
+  color: var(--white);
 }
 
 .header__contacts {
@@ -1296,12 +1405,12 @@ p {
   z-index: 1;
 }
 
-.logo a {
+.logo {
   font-weight: 900;
   font-size: 3.2rem;
 }
 
-.header-theme-dark .logo a {
+.header-theme-dark .logo {
   color: var(--white);
 }
 
@@ -1386,6 +1495,147 @@ p {
   right: 4rem;
   color: var(--black);
   background: transparent;
+}
+
+.preloader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: var(--blue);
+  -webkit-transform-origin: top center;
+      -ms-transform-origin: top center;
+          transform-origin: top center;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.preloader__gear {
+  display: block;
+  width: 7rem;
+  height: 7rem;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation: spin 4s linear infinite;
+          animation: spin 4s linear infinite;
+}
+
+/* Анимация вращения по часовой стрелке */
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+/* Контейнер для выравнивания холста и процентов друг под другом */
+
+.preloader__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1.5rem;
+}
+
+canvas {
+  display: block;
+  width: 7rem;
+  height: 7rem;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease;
+  -o-transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Стили текстовых процентов */
+
+.preloader__percent {
+  font-family: monospace;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+/* Контейнер для линии и машинки */
+
+.preloader__progress-wrapper {
+  width: 100%;
+  height: 4rem;
+  /* Увеличиваем высоту, чтобы машинка поместилась */
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Линия загрузки (ползунок) опускается в самый низ контейнера */
+
+.preloader__progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.2rem;
+  background: var(--red);
+  -webkit-transform: scaleX(0);
+      -ms-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: left center;
+      -ms-transform-origin: left center;
+          transform-origin: left center;
+  will-change: transform;
+}
+
+/* Стили и позиционирование едущей машинки */
+
+.preloader__car {
+  width: auto;
+  height: 3.2rem;
+  fill: var(--white);
+  -webkit-transform: translateX(-100%);
+      -ms-transform: translateX(-100%);
+          transform: translateX(-100%);
+  will-change: transform;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .product__inner {
@@ -3357,6 +3607,38 @@ p {
   padding-left: calc(var(--head-gap) + var(--photo-size));
 }
 
+.showcase__slider {
+  height: 80vh;
+}
+
+.showcase__slide-img {
+  width: 100%;
+  height: 100%;
+}
+
+.showcase .swiper-button-next,
+.showcase .swiper-button-prev {
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  -webkit-transform: unset;
+      -ms-transform: unset;
+          transform: unset;
+  border-radius: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.showcase .swiper-button-next {
+  right: 0;
+}
+
+.showcase .swiper-button-prev {
+  left: 0;
+}
+
 @media (min-width: 601px) {
   .btn:not(.btn--radial):not(.btn--border):hover,
   .banner__item:hover .btn {
@@ -3374,6 +3656,15 @@ p {
   .btn--icon:hover .btn-icon {
     -webkit-filter: drop-shadow(0 0 8px rgba(252, 252, 252, 0.8));
             filter: drop-shadow(0 0 8px rgba(252, 252, 252, 0.8));
+  }
+
+  .header nav a:hover {
+    color: var(--blue);
+  }
+
+  .header nav a:hover::before {
+    width: 100%;
+    left: 0;
   }
 
   .template-product__body-btns .btn:hover .icon-play {

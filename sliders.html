@@ -22,15 +22,15 @@
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body>
+<body data-barba="wrapper">
   <div class="wrapper">
     <!-- Шапка -->
     <header id="header" class="header">
   <div class="container">
     <div class="header__inner">
 
-      <div class="logo">
-        <a href="/main-animation/">Logo</a>
+      <div class="header__logo">
+        <a class="logo" href="/main-animation">Logo</a>
       </div>
 
       <nav>
@@ -48,13 +48,34 @@
         </a>
       </nav>
 
-      <div class="header__contacts">
-        <a class="header__contacts-link" href="/main-animation/">
+      <!-- <div class="header__contacts">
+        <a class="header__contacts-link" href="/">
           <i class="icon-telegram"></i>
         </a>
-        <a class="header__contacts-link" href="/main-animation/">
+        <a class="header__contacts-link" href="/">
           <i class="icon-max"></i>
         </a>
+      </div> -->
+
+      <div class="header__contacts">
+        <button class="btn btn--icon btn--magnetic">
+          <div class="btn-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M11.2364 21.9372C9.07734 21.9372 8.074 21.6207 6.32997 20.3545C5.22682 21.7789 1.73352 22.8922 1.58118 20.9876C1.58118 19.5578 1.26599 18.3496 0.908783 17.0306C0.483284 15.4056 0 13.596 0 10.9739C0 4.71138 5.11651 0 11.1786 0C17.2459 0 21.9999 4.94352 21.9999 11.0319C22.0203 17.0262 17.2046 21.9052 11.2364 21.9372ZM11.3257 5.41308C8.37342 5.26008 6.07257 7.31241 5.56302 10.5307C5.14277 13.195 5.88871 16.4397 6.52433 16.6086C6.82901 16.6824 7.59596 16.0599 8.074 15.5798C8.86444 16.1282 9.78491 16.4576 10.7426 16.5347C13.8016 16.6825 16.4154 14.3435 16.6208 11.2746C16.7403 8.1992 14.3851 5.59435 11.3257 5.41836L11.3257 5.41308Z"
+                fill="#ffffff" />
+            </svg>
+          </div>
+        </button>
+        <button class="btn btn--icon btn--icon--telegram btn--magnetic">
+          <div class="btn-icon">
+            <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.286966 7.44248C2.23071 6.35382 4.40047 5.44523 6.42778 4.53198C9.91554 3.03616 13.4172 1.56626 16.9541 0.197798C17.6423 -0.035374 18.8788 -0.263404 19 0.773543C18.9336 2.24133 18.6605 3.70052 18.4732 5.15971C17.9977 8.36861 17.4482 11.5665 16.9123 14.7649C16.7276 15.8302 15.4151 16.3817 14.5753 15.6999C12.557 14.3137 10.5231 12.941 8.53061 11.5227C7.87791 10.8483 8.48315 9.87994 9.06608 9.39838C10.7284 7.73264 12.4914 6.3174 14.0668 4.56558C14.4918 3.52208 13.2361 4.40152 12.822 4.67097C10.5462 6.26556 8.32616 7.9575 5.92681 9.35893C4.70122 10.0449 3.27277 9.45868 2.04774 9.07588C0.949338 8.61348 -0.660111 8.14756 0.286966 7.44248Z"
+                fill="#ffffff" />
+            </svg>
+          </div>
+        </button>
       </div>
 
     </div>
@@ -82,7 +103,30 @@
 
   </div>
 </header>
-    <main class="main">
+<div class="preloader">
+  <div class="preloader__container">
+    <canvas id="logo-canvas" width="70" height="70"></canvas>
+    <!-- Текстовый счетчик процентов -->
+    <div class="preloader__percent">0%</div>
+  </div>
+  <!-- Линия загрузки и едущая машинка -->
+  <div class="preloader__progress-wrapper">
+    <!-- Векторная машинка, которая едет перед ползунком -->
+    <svg class="preloader__car" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_436_865)">
+        <path
+          d="M2.99996 5C1.89496 5 0.99996 5.895 0.99996 7V21C0.867448 20.9981 0.735885 21.0226 0.612917 21.072C0.489949 21.1214 0.378028 21.1948 0.283658 21.2878C0.189289 21.3809 0.114352 21.4918 0.0632047 21.614C0.012057 21.7363 -0.0142822 21.8675 -0.0142822 22C-0.0142822 22.1325 0.012057 22.2637 0.0632047 22.386C0.114352 22.5082 0.189289 22.6191 0.283658 22.7122C0.378028 22.8052 0.489949 22.8786 0.612917 22.928C0.735885 22.9774 0.867448 23.0019 0.99996 23H2.99996H4.05074C4.29814 24.6854 5.75003 26 7.49996 26C9.24989 26 10.7018 24.6854 10.9492 23H18H20.0507C20.2981 24.6854 21.75 26 23.5 26C25.2499 26 26.7018 24.6854 26.9492 23H29C29.1325 23.0019 29.264 22.9774 29.387 22.928C29.51 22.8786 29.6219 22.8052 29.7163 22.7122C29.8106 22.6191 29.8856 22.5082 29.9367 22.386C29.9879 22.2637 30.0142 22.1325 30.0142 22C30.0142 21.8675 29.9879 21.7363 29.9367 21.614C29.8856 21.4918 29.8106 21.3809 29.7163 21.2878C29.6219 21.1948 29.51 21.1214 29.387 21.072C29.264 21.0226 29.1325 20.9981 29 21V16H23V12C23 11.448 23.448 11 24 11H26.8574L26.5195 10.2129C26.2045 9.47789 25.4816 9 24.6816 9H18V7C18 5.895 17.105 5 16 5H2.99996ZM7.49996 21C8.34023 21 8.99996 21.6597 8.99996 22.5C8.99996 23.3403 8.34023 24 7.49996 24C6.65969 24 5.99996 23.3403 5.99996 22.5C5.99996 21.6597 6.65969 21 7.49996 21ZM23.5 21C24.3402 21 25 21.6597 25 22.5C25 23.3403 24.3402 24 23.5 24C22.6597 24 22 23.3403 22 22.5C22 21.6597 22.6597 21 23.5 21Z" />
+      </g>
+      <defs>
+        <clipPath id="clip0_436_865">
+          <rect width="30" height="30" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+    <div class="preloader__progress-bar"></div>
+  </div>
+</div>
+    <main class="main" data-barba="container" data-barba-namespace="home">
 
       <section class="category">
         <div class="container">
@@ -431,6 +475,43 @@
 
               <div class="general__foot"></div>
 
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase none">
+        <div class="container container--fluid">
+          <div class="showcase__inner">
+
+            <div class="showcase__body">
+              <div class="swiper showcase__slider clip-slider">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide showcase__slide s--active">
+                    <div class="showcase__slide-img">
+                      <img src="./images/temp/showcase-cover-1.jpg" alt="">
+                    </div>
+                  </div>
+                  <div class="swiper-slide showcase__slide">
+                    <div class="showcase__slide-img">
+                      <img src="./images/temp/showcase-cover-2.jpg" alt="">
+                    </div>
+                  </div>
+                  <div class="swiper-slide showcase__slide">
+                    <div class="showcase__slide-img">
+                      <img src="./images/temp/showcase-cover-3.jpg" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-button-prev showcase-button-prev">
+                  <i class="icon-chevron-big"></i>
+                </div>
+                <div class="swiper-button-next showcase-button-next">
+                  <i class="icon-chevron-big"></i>
+                </div>
+                <div class="swiper-pagination showcase-swiper-pagination"></div>
+              </div>
             </div>
 
           </div>
@@ -1484,6 +1565,9 @@
 </footer>
 
 </div>
+
+<div class="page-transition-overlay"></div>
+
 <!-- libs -->
 <!-- jquery -->
 <script src="./libs/jquery/jquery.v3.7.1.min.js"></script>
@@ -1499,6 +1583,9 @@
 <script src="./libs/swiper/swiper-bundle.min.js"></script>
 <!-- transferElements -->
 <script src="./libs/transferElements/transfer-elements.min.js"></script>
+<!-- barba -->
+<script src="https://unpkg.com/@barba/core"></script>
+<script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
 <!-- scripts -->
 <script src="./js/main.js"></script>
 </body>
