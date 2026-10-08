@@ -1,0 +1,97 @@
+@use './../mixins' as *;
+
+.preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue);
+  transform-origin: top center;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  &__gear {
+    display: block;
+    width: 7rem;
+    height: 7rem;
+    flex-shrink: 0;
+    transform-origin: center center;
+    animation: spin 4s linear infinite;
+  }
+}
+
+/* Анимация вращения по часовой стрелке */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Контейнер для выравнивания холста и процентов друг под другом */
+.preloader__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+canvas {
+  display: block;
+  width: 7rem;
+  height: 7rem;
+  flex-shrink: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Стили текстовых процентов */
+.preloader__percent {
+  font-family: monospace;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+/* Контейнер для линии и машинки */
+.preloader__progress-wrapper {
+  width: 100%;
+  height: 4rem;
+  /* Увеличиваем высоту, чтобы машинка поместилась */
+  pointer-events: none;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Линия загрузки (ползунок) опускается в самый низ контейнера */
+.preloader__progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.2rem;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Стили и позиционирование едущей машинки */
+.preloader__car {
+  width: auto;
+  height: 3.2rem;
+  fill: var(--white);
+  transform: translateX(-100%);
+  will-change: transform;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}

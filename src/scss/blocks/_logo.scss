@@ -1,13 +1,10 @@
 @use './../mixins' as *;
 
 .logo {
+  font-weight: 900;
+  font-size: 3.2rem;
 
-  a {
-    font-weight: 900;
-    font-size: 3.2rem;
-
-    .header-theme-dark & {
-      color: var(--white);
-    }
+  .header-theme-dark & {
+    color: var(--white);
   }
 }

@@ -1,0 +1,42 @@
+@use './../mixins' as *;
+
+.showcase {
+
+  &__inner {}
+
+  &__body {}
+
+  &__slider {
+    height: 80vh;
+  }
+
+  &__slide {
+
+    &-img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 50%;
+    height: 100%;
+    margin: 0;
+    transform: unset;
+    border-radius: 0;
+    background-color: transparent;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .swiper-button-next {
+    right: 0;
+  }
+
+  .swiper-button-prev {
+    left: 0;
+  }
+}

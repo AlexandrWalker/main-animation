@@ -59,10 +59,11 @@
   &-icon {
     display: inline-block;
     transform: translate(var(--icon-x, 0px), var(--icon-y, 0px));
-    will-change: transform;
     transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
-    will-change: filter;
+    will-change: transform, filter;
+
     pointer-events: none;
+
     position: relative;
     z-index: 2;
   }
@@ -243,8 +244,8 @@
     }
 
     svg {
-      width: 2rem;
-      height: 2rem;
+      width: 2.4rem;
+      height: 2.4rem;
       flex-shrink: 0;
     }
   }

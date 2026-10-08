@@ -2,11 +2,11 @@
 <html lang="ru" class="page__inner">
 @@include('blocks/head.html', {"title": "Sandbox"})
 
-<body>
+<body data-barba="wrapper">
   <div class="wrapper">
     <!-- Шапка -->
     @@include('./blocks/header.html')
-    <main class="main">
+    <main class="main" data-barba="container" data-barba-namespace="home">
 
       <section class="template">
         <div class="container">
@@ -72,7 +72,7 @@
                   <h2>Анимация 3</h2>
                 </div>
               </div>
-              <div class="reviews__items anim-items" data-anim="rows-up">
+              <div class="reviews__items anim-items" data-anim="rows-right">
                 @@loop('./elements/reviews-item.html', './data/reviews-items.json')
               </div>
             </div>

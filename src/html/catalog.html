@@ -2,11 +2,11 @@
 <html lang="ru" class="catalog-page">
 @@include('blocks/head.html', {"title": "Sandbox"})
 
-<body>
+<body data-barba="wrapper">
   <div class="wrapper">
     <!-- Шапка -->
     @@include('./blocks/header.html')
-    <main class="main">
+    <main class="main" data-barba="container" data-barba-namespace="home">
 
       <section class="catalog">
         <div class="container">
@@ -42,7 +42,7 @@
                     <div class="catalog__block">
                       <div class="catalog__block-wrap">
                         <p class="catalog__block-text">AI Journey 2025 в&nbsp;записи</p>
-                        <a class="catalog__block-btn" href="/" target="_self" aria-disabled="false">
+                        <a class="catalog__block-btn" href="/main-animation/" target="_self" aria-disabled="false">
                           Смотреть
                           <i class="">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

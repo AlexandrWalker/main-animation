@@ -20,15 +20,14 @@
     pointer-events: none;
   }
 
+  /* хедер зафиксировался */
   &.html.header-fixed {}
 
-  /* хедер зафиксировался */
+  /* прошли первую секцию */
   &.html.header-off-top {}
 
-  /* прошли первую секцию */
-  &.html.header-at-footer {}
-
   /* хедер у футера */
+  &.html.header-at-footer {}
 
   &__inner {
     display: flex;
@@ -51,13 +50,40 @@
     }
 
     a {
+      font-size: 2rem;
+      line-height: 120%;
+
+      position: relative;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 0;
+        height: 0.2rem;
+        background-color: var(--blue);
+        transition: width 0.3s linear;
+
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+      }
 
       .header-theme-dark & {
         color: var(--white);
       }
 
       &:hover {
-        color: var(--blue);
+
+        @include dosm {
+          color: var(--blue);
+
+          &::before {
+            width: 100%;
+
+            left: 0;
+          }
+        }
       }
     }
   }

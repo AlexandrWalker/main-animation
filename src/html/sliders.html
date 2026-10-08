@@ -2,11 +2,11 @@
 <html lang="ru" class="main-page">
 @@include('blocks/head.html', {"title": "Sandbox"})
 
-<body>
+<body data-barba="wrapper">
   <div class="wrapper">
     <!-- Шапка -->
     @@include('./blocks/header.html')
-    <main class="main">
+    <main class="main" data-barba="container" data-barba-namespace="home">
 
       <section class="category">
         <div class="container">
@@ -55,6 +55,43 @@
 
               <div class="general__foot"></div>
 
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase none">
+        <div class="container container--fluid">
+          <div class="showcase__inner">
+
+            <div class="showcase__body">
+              <div class="swiper showcase__slider clip-slider">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide showcase__slide s--active">
+                    <div class="showcase__slide-img">
+                      <img src="./../images/temp/showcase-cover-1.jpg" alt="">
+                    </div>
+                  </div>
+                  <div class="swiper-slide showcase__slide">
+                    <div class="showcase__slide-img">
+                      <img src="./../images/temp/showcase-cover-2.jpg" alt="">
+                    </div>
+                  </div>
+                  <div class="swiper-slide showcase__slide">
+                    <div class="showcase__slide-img">
+                      <img src="./../images/temp/showcase-cover-3.jpg" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-button-prev showcase-button-prev">
+                  <i class="icon-chevron-big"></i>
+                </div>
+                <div class="swiper-button-next showcase-button-next">
+                  <i class="icon-chevron-big"></i>
+                </div>
+                <div class="swiper-pagination showcase-swiper-pagination"></div>
+              </div>
             </div>
 
           </div>
